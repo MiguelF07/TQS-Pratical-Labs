@@ -29,6 +29,10 @@ In this [link](https://howtodoinjava.com/junit5/junit-5-assertions-examples/) we
 * `assertThrows()`
 * `fail()`
 
+<h2>Link with a JUnit CheatSheet</h2>
+
+[JUnit CheatSheet](https://www.jrebel.com/blog/junit-cheat-sheet)
+
 
 
 
