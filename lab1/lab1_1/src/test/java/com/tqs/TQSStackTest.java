@@ -10,12 +10,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * Unit test for simple App.
- */
+
 public class TQSStackTest 
 {
     /**
@@ -109,6 +105,16 @@ public class TQSStackTest
         },"NoSuchElementException error was expected when peeking");
     }
 
-    //Alinea I
-    //How to do it? Create a stack inside the test or other?
+    @DisplayName("Alinea I) - For bounded stacks only: pushing onto a full stack does throw an IllegalStateException")
+    @Test
+    public void fullBoundedStack_ThrowsException() {
+        stack = new TQSStack(2);
+
+        stack.push("Engenharia");
+        stack.push("Informatica");
+
+        Assertions.assertThrows(IllegalStateException.class, () -> {
+            stack.push("UA");
+        },"IllegalStateException error was expected when pushing into a full stack");
+    }
 }

@@ -8,3 +8,5 @@
 
 `expected`is the expected result and `result`is the actual result given.
 
+Some [methods](https://howtodoinjava.com/junit5/junit-5-assertions-examples/) to use in Testing (abrir link e por no readme)
+
