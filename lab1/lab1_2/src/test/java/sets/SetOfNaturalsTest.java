@@ -85,7 +85,7 @@ public class SetOfNaturalsTest {
     @DisplayName("Testing if it returns true when two sets intersect")
     public void testIntersection() {
         assertTrue(setB.intersects(SetOfNaturals.fromArray(new int[]{38,39,40,41})));
-
+        assertFalse(setB.intersects(SetOfNaturals.fromArray(new int[]{38,39,41})));
     }
 
 

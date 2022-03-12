@@ -23,6 +23,13 @@ public class SetOfNaturals implements Iterable<Integer> {
 
 	public void add(int[] numbers) {
 		for (int number : numbers) {
+			if (this.collection.contains(number)) {
+				throw new IllegalArgumentException("duplicate value: " + number);
+			}
+	
+			if (number <= 0) {
+				throw new IllegalArgumentException("Illegal argument: not a natural number");
+			}
 			this.add(number);
 		}
 	}
@@ -42,6 +49,11 @@ public class SetOfNaturals implements Iterable<Integer> {
 
 
 	public boolean intersects(SetOfNaturals subset) {
+		for(Integer elem: subset) {
+			if(this.collection.contains(elem)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
