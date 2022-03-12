@@ -35,5 +35,18 @@ In this [link](https://howtodoinjava.com/junit5/junit-5-assertions-examples/) we
 
 
 
+<h2>Code Coverage</h2>
 
+I'll be running a Jacoco analysis to check the coverage of the tests made.
+To configure Jacoco I followed [this](https://www.baeldung.com/jacoco) tutorial.
+
+Command to generate a readable report of the code coverage:
+
+```bash
+$ mvn clean test jacoco:report
+```
+
+The result can be found on `target/site/jacoco/index.html` (print of the result on folder `prints`)
+
+<img width="959" alt="coverage" src="https://user-images.githubusercontent.com/66647922/158036321-f7291ccd-6048-42d4-962d-58207eacf206.png">
 
