@@ -51,4 +51,33 @@ public class DipTest {
         assertEquals("N[ 10 20 30 40 50] S[  1  2]", result, "format as string: formatted string not as expected. ");
     }
 
+    @Disabled("Disabled because the range of stars was changed to 1..12")
+    @DisplayName("Test to check if the original range (1..50 on numbers and 1..10 in stars) is working")
+    @Test
+    public void testStarGeneratorTo10() {
+        assertAll("Should throw an IllegalArgumentException when out of bounds",
+            //Wrong range for numbers
+            () -> assertThrows(IllegalArgumentException.class, () -> new Dip(new int[]{10, 20, 30, 40, 52}, new int[]{1, 9})),
+            //Wrong range for stars
+            () -> assertThrows(IllegalArgumentException.class, () -> new Dip(new int[]{10, 20, 30, 40, 50}, new int[]{1, 12}))
+        );
+    }
+
+    @DisplayName("Test to check if the new range (1..50 on numbers and 1..12 in stars) is working")
+    @Test
+    public void testStarGeneratorTo12() {
+        assertAll("Should throw an IllegalArgumentException when out of bounds",
+            //Wrong range for numbers
+            () -> assertThrows(IllegalArgumentException.class, () -> new Dip(new int[]{10, 20, 30, 40, 52}, new int[]{1, 9})),
+            //Wrong range for stars
+            () -> assertThrows(IllegalArgumentException.class, () -> new Dip(new int[]{10, 20, 30, 40, 50}, new int[]{1, 13})),
+            () -> assertThrows(IllegalArgumentException.class, () -> new Dip(new int[]{10, 20, 30, 40, 50}, new int[]{1, 0}))
+        );
+    }
+
+
+
+
+
+
 }
