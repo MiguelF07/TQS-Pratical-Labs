@@ -47,11 +47,45 @@ public class SetOfNaturalsTest {
     }
 
     @Test
+    @DisplayName("Add a duplicate value to the set throws an error")
+    public void testDuplicate() {
+        assertTrue(setB.contains(10));
+        assertThrows(IllegalArgumentException.class, () -> setB.add(10), "add: added element was added but already is in set");
+    }
+
+    @Test
+    @DisplayName("Add a non positive value to the set throws an error")
+    public void testNonPositive() {
+        assertThrows(IllegalArgumentException.class, () -> setA.add(0), "add: zero added but it is not in range of 1..+oo");
+        assertThrows(IllegalArgumentException.class, () -> setA.add(-3), "add: negative value added but it is not in range og 1..+oo");
+    }
+
+    @Test
     public void testAddBadArray() {
         int[] elems = new int[]{10, 20, -30};
 
         // must fail with exception
         assertThrows(IllegalArgumentException.class, () -> setA.add(elems));
+    }
+
+    @Test
+    @DisplayName("Add an array with a duplicate value to the set throws an error")
+    public void testDuplicateFromArray() {
+        assertThrows(IllegalArgumentException.class, () -> SetOfNaturals.fromArray(new int[]{38,39,40,39}));
+    }
+
+    @Test
+    @DisplayName("Add an array with a non positive value to the set throws an error")
+    public void testNonPositiveFromArray() {
+        assertThrows(IllegalArgumentException.class, () -> SetOfNaturals.fromArray(new int[]{38,39,40,-2}));
+        assertThrows(IllegalArgumentException.class, () -> SetOfNaturals.fromArray(new int[]{38,39,40,0}));
+    }
+
+    @Test
+    @DisplayName("Testing if it returns true when two sets intersect")
+    public void testIntersection() {
+        assertTrue(setB.intersects(SetOfNaturals.fromArray(new int[]{38,39,40,41})));
+
     }
 
 
@@ -60,6 +94,5 @@ public class SetOfNaturalsTest {
         assertFalse(setA.intersects(setB), "no intersection but was reported as existing");
 
     }
-
 
 }
