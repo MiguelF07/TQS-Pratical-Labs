@@ -1,6 +1,8 @@
 package com.tqs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +30,8 @@ public class StocksPortofolioTest {
         portofolio.addStock(new Stock("EBAY",2));
         portofolio.addStock(new Stock("AAPL", 3));
 
-        assertEquals(16.0, portofolio.getTotalValue());
+        //assertEquals(16.0, portofolio.getTotalValue());
+        assertThat(portofolio.getTotalValue(),is(16.0));
         Mockito.verify(mockMarket, Mockito.times(2)).lookuUpPrice(Mockito.anyString());
     }
 }
