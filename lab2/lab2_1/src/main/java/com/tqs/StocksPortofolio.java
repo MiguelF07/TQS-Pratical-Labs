@@ -1,5 +1,6 @@
 package com.tqs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StocksPortofolio {
@@ -8,16 +9,20 @@ public class StocksPortofolio {
 
 
     public StocksPortofolio(IStockmarketService stockmarket) {
+        this.stocks = new ArrayList<Stock>();
         this.stockmarket = stockmarket;
     }
 
     public void addStock(Stock s) {
-        //Implementar
+        this.stocks.add(s);
     }
 
     public double getTotalValue() {
-        //Implementar
-        return 0;
+        double total = 0;
+        for(Stock s : stocks) {
+            total = total + (this.stockmarket.lookuUpPrice(s.getLabel()) * s.getQuantity());
+        }
+        return total;
     }
 
     
