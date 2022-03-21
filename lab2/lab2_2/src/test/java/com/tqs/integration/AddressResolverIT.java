@@ -9,31 +9,35 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AddressResolverIT {
 
+    private TqsBasicHttpClient httpClient;
+    private AddressResolver aR;
 
     @BeforeEach
     public void init(){
+        httpClient = new TqsBasicHttpClient();
+        aR = new AddressResolver(httpClient);
     }
 
     @Test
     public void whenGoodCoordidates_returnAddress() throws IOException, URISyntaxException, ParseException {
 
-        //todo
-
-        // repeat the same tests conditions from AddressResolverTest, without mocks
+        Optional<Address> res = aR.findAddressForLocation(40.640661, -8.656688);
+        assertEquals(res.get(), new Address( "Cais do Alboi", "Glória e Vera Cruz", "Centro", "3800-246", null) );
 
     }
 
     @Test
     public void whenBadCoordidates_thenReturnNoValidAddrress() throws IOException, URISyntaxException, ParseException {
 
-        //todo
-        // repeat the same tests conditions from AddressResolverTest, without mocks
+        assertThrows(NoSuchElementException.class, () -> {aR.findAddressForLocation(4589258,298459245).get();});
         
     }
 

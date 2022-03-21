@@ -61,7 +61,7 @@ class AddressResolverTest {
         //e.g.
         Optional<Address> result = aR.findAddressForLocation(4589258,298459245);
 
-        assertThrows(NoSuchElementException.class, () -> result.get());
+        assertThrows(NoSuchElementException.class, () -> result.get(),"No valid address");
 
     }
 }
