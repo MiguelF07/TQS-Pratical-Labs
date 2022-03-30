@@ -37,10 +37,10 @@ public class CarManagerServiceTest {
 
         List<Car> allCars = Arrays.asList(car1,car2);
 
-        Mockito.when(carRep.findByMaker(car1.getMaker())).thenReturn(car1);
-        Mockito.when(carRep.findByModel(car1.getModel())).thenReturn(car1);
-        Mockito.when(carRep.findByMaker(car2.getMaker())).thenReturn(car2);
-        Mockito.when(carRep.findByModel(car2.getModel())).thenReturn(car2);
+        Mockito.when(carRep.findByMaker(car1.getMaker())).thenReturn(Optional.of(car1));
+        Mockito.when(carRep.findByModel(car1.getModel())).thenReturn(Optional.of(car1));
+        Mockito.when(carRep.findByMaker(car2.getMaker())).thenReturn(Optional.of(car2));
+        Mockito.when(carRep.findByModel(car2.getModel())).thenReturn(Optional.of(car2));
         Mockito.when(carRep.findByMaker("invalid maker")).thenReturn(null);
         Mockito.when(carRep.findByModel("invalid model")).thenReturn(null);
         Mockito.when(carRep.findById(car1.getCarId())).thenReturn(Optional.of(car1));
@@ -52,7 +52,12 @@ public class CarManagerServiceTest {
     @Test
     public void whenSearchValidModel_thenCarShouldBeFound() {        
         String model = "Classe A";
-        Car found = carService.getCarByModel(model);
+        Optional<Car> foundOp = carService.getCarByModel(model);
+        Car found = null;
+
+        if(foundOp.isPresent()) {
+            found = foundOp.get();
+        }
 
         assertThat(found.getModel()).isEqualTo(model);
     }
@@ -60,7 +65,12 @@ public class CarManagerServiceTest {
     @Test
     public void whenSearchValidMaker_thenCarShouldBeFound() {
         String maker = "Peugeot";
-        Car found = carService.getCarByMaker(maker);
+        Optional<Car> foundOp = carService.getCarByMaker(maker);
+        Car found = null;
+
+        if(foundOp.isPresent()) {
+            found = foundOp.get();
+        }
 
         assertThat(found.getMaker()).isEqualTo(maker);
     }
@@ -68,7 +78,12 @@ public class CarManagerServiceTest {
     @Test
     public void whenSearchInvalidModel_thenCarShouldNotBeFound() {
         String model = "invalid_model";
-        Car found = carService.getCarByModel(model);
+        Optional<Car> foundOp = carService.getCarByModel(model);
+        Car found = null;
+
+        if(foundOp.isPresent()) {
+            found = foundOp.get();
+        }
 
         assertThat(found).isNull();
 
@@ -78,7 +93,12 @@ public class CarManagerServiceTest {
     @Test
     public void whenSearchInvalidMaker_thenCarShouldNotBeFound() {
         String maker = "invalid_maker";
-        Car found = carService.getCarByMaker(maker);
+        Optional<Car> foundOp = carService.getCarByMaker(maker);
+        Car found = null;
+
+        if(foundOp.isPresent()) {
+            found = foundOp.get();
+        }
 
         assertThat(found).isNull();
 
@@ -119,7 +139,11 @@ public class CarManagerServiceTest {
 
     @Test
      void whenValidId_thenCarShouldBeFound() {
-        Car car = carService.getCarDetails(23L);
+        Optional<Car> carOp = carService.getCarDetails(23L);
+        Car car = null;
+        if(carOp.isPresent()) {
+            car = carOp.get();
+        }
         assertThat(car.getModel()).isEqualTo("Classe A");
 
         Mockito.verify(carRep, VerificationModeFactory.times(1)).findById(Mockito.anyLong());
@@ -128,7 +152,11 @@ public class CarManagerServiceTest {
     @Test
      void whenInvalidId_thenCarShouldNotBeFound() {
         //TODO:Implement
-        Car car = carService.getCarDetails(-45L);
+        Optional<Car> carOp = carService.getCarDetails(-45L);
+        Car car = null;
+        if(carOp.isPresent()) {
+            car = carOp.get();
+        }
         assertThat(car).isNull();
         Mockito.verify(carRep, VerificationModeFactory.times(1)).findById(Mockito.anyLong());
     }

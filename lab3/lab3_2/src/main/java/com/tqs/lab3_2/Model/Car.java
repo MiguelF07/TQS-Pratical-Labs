@@ -20,7 +20,6 @@ public class Car {
     }
 
     public Car(String maker, String model) {
-        // this.carId = carId;
         this.maker = maker;
         this.model = model;
     }

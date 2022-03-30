@@ -23,27 +23,29 @@ public class CarManagerService {
         return carRepository.findAll();
     }
 
-    public Car getCarDetails(Long det) {
-        return carRepository.findById(det).orElse(null);
+    public Optional<Car> getCarDetails(Long det) {
+        return carRepository.findById(det);
     }
 
-    public Car getCarByModel(String model) {
+    public Optional<Car> getCarByModel(String model) {
         return carRepository.findByModel(model);
     }
 
-    public Car getCarByMaker(String maker) {
+    public Optional<Car> getCarByMaker(String maker) {
         return carRepository.findByMaker(maker);
     }
 
     public boolean exists_model(String model) {
-        if (carRepository.findByModel(model) != null) {
+        Optional<Car> car = carRepository.findByModel(model);
+        if(car.isPresent()) {
             return true;
         }
         return false;
     }
 
     public boolean exists_maker(String maker) {
-        if (carRepository.findByMaker(maker) != null) {
+        Optional<Car> car = carRepository.findByMaker(maker);
+        if(car.isPresent()) {
             return true;
         }
         return false;

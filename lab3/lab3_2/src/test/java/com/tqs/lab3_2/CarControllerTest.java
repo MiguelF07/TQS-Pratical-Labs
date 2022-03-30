@@ -27,19 +27,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * WebMvcTest loads a simplified web environment for the tests. Note that the normal
- * auto-discovery of beans (and dependency injection) is limited
- * This strategy deploys the required components to a test-friendly web framework, that can be accessed
- * by injecting a MockMvc reference
- */
 @WebMvcTest(CarController.class)
 public class CarControllerTest {
     @Autowired
-    private MockMvc mvc;    //entry point to the web framework
+    private MockMvc mvc;
 
-    // inject required beans as "mockeable" objects
-    // note that @AutoWire would result in NoSuchBeanDefinitionException
     @MockBean
     private CarManagerService service;
 

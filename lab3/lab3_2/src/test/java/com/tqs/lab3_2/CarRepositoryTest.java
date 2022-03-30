@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -30,7 +33,12 @@ public class CarRepositoryTest {
         Car car1 = new Car("Mercedes-Benz","Classe A");
         entityManager.persistAndFlush(car1);
 
-        Car found = carRep.findByModel(car1.getModel());
+        Optional<Car> foundOp = carRep.findByModel(car1.getModel());
+        Car found = null;
+        if(foundOp.isPresent())
+        {
+            found=foundOp.get();
+        }
         assertThat(found).isEqualTo(car1);
     }
 
@@ -39,19 +47,34 @@ public class CarRepositoryTest {
         Car car1 = new Car("Mercedes-Benz","Classe A");
         entityManager.persistAndFlush(car1);
 
-        Car found = carRep.findByMaker(car1.getMaker());
+        Optional<Car> foundOp = carRep.findByMaker(car1.getMaker());
+        Car found = null;
+        if(foundOp.isPresent())
+        {
+            found=foundOp.get();
+        }
         assertThat(found).isEqualTo(car1);
     }
 
     @Test
     void whenInvalidCarMaker_thenReturnNull() {
-        Car found = carRep.findByMaker("Not existent");
+        Optional<Car> foundOp = carRep.findByMaker("Not existent");
+        Car found = null;
+        if(foundOp.isPresent())
+        {
+            found=foundOp.get();
+        }
         assertThat(found).isNull();
     }
 
     @Test
     void whenInvalidCarModel_thenReturnNull() {
-        Car found = carRep.findByModel("Not existent");
+        Optional<Car> foundOp = carRep.findByModel("Not existent");
+        Car found = null;
+        if(foundOp.isPresent())
+        {
+            found=foundOp.get();
+        }
         assertThat(found).isNull();
     }
 
@@ -69,6 +92,21 @@ public class CarRepositoryTest {
     void whenInvalidId_thenReturnNull() {
         Car found = carRep.findById(-98L).orElse(null);
         assertThat(found).isNull();
+    }
+
+    @Test
+    void givenSetOfCars_whenFindAll_thenReturnAllCars() {
+        Car car1 = new Car("Volkswagen","Golf");
+        Car car2 = new Car("Mercedes-Benz","Classe A");
+
+        entityManager.persist(car1);
+        entityManager.persist(car2);
+        entityManager.flush();
+
+        List<Car> cars = carRep.findAll();
+
+        assertThat(cars).hasSize(2).extracting(Car::getModel).containsOnly(car1.getModel(),car2.getModel());
+
     }
 
 }
