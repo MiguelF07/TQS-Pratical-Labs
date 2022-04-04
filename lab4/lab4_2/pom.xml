@@ -46,6 +46,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
@@ -174,6 +175,7 @@
         <version>${javafaker.version}</version>
         <scope>test</scope>
     </dependency>
+        
     <dependency>
         <groupId>com.aventstack</groupId>
         <artifactId>extentreports</artifactId>
