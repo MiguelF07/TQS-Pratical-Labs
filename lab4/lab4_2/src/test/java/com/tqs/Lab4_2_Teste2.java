@@ -6,6 +6,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.IsNot.not;
@@ -26,26 +28,28 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import io.github.bonigarcia.seljup.SeleniumJupiter;
+
+@ExtendWith(SeleniumJupiter.class)
 public class Lab4_2_Teste2 {
-  private WebDriver driver;
+  // private WebDriver driver;
   private Map<String, Object> vars;
-  private SoftAssertions softAssertions;
-  JavascriptExecutor js;
-  @BeforeEach
-  public void setUp() {
-    driver = new ChromeDriver();
-    js = (JavascriptExecutor) driver;
-    vars = new HashMap<String, Object>();
-    softAssertions = new SoftAssertions();
-  }
-  @AfterEach
-  public void tearDown() {
-    driver.quit();
-  }
+  // JavascriptExecutor js;
+  // @BeforeEach
+  // public void setUp() {
+  //   driver = new ChromeDriver();
+  //   js = (JavascriptExecutor) driver;
+  //   vars = new HashMap<String, Object>();
+  // }
+  // @AfterEach
+  // public void tearDown() {
+  //   driver.quit();
+  // }
 
   //IMPORTANT: Uncomment lines 74 and 76 for the tests to fail
   @Test
-  public void teste2() {
+  public void teste2(ChromeDriver driver) {
+    vars = new HashMap<String, Object>();
     driver.get("https://blazedemo.com/");
     driver.manage().window().setSize(new Dimension(1200, 771));
     driver.findElement(By.name("fromPort")).click();

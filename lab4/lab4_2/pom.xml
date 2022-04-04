@@ -246,6 +246,12 @@
         <version>${rest-assured.version}</version>
         <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>io.github.bonigarcia</groupId>
+        <artifactId>selenium-jupiter</artifactId>
+        <version>4.1.0</version>
+        <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
