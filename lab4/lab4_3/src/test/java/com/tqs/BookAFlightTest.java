@@ -11,20 +11,17 @@ import com.tqs.webpages.PurchasePage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import io.github.bonigarcia.seljup.SeleniumJupiter;
 
+@ExtendWith(SeleniumJupiter.class)
 public class BookAFlightTest {
     private WebDriver driver;
 
-    @BeforeEach
-    public void setup() {
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    }
-
     @Test
-    public void bookAFlight() {
+    public void bookAFlight(ChromeDriver driver) {
         HomePage home = new HomePage(driver);
         home.clickOnDepartureDropdown(4);
         home.clickOnDestinationDropdown(2);
@@ -54,8 +51,4 @@ public class BookAFlightTest {
         purchasePage.clickOnPurchaseButton();
     }
 
-    @AfterEach
-    public void close(){
-          driver.close();
-   }
 }
