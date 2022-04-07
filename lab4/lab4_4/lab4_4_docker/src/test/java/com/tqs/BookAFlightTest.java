@@ -23,8 +23,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 @ExtendWith(SeleniumJupiter.class)
 public class BookAFlightTest {
-    private WebDriver driver;
-    
 
     @Test
     public void bookAFlight(@DockerBrowser(type = BrowserType.CHROME, vnc = true) WebDriver driver) {
