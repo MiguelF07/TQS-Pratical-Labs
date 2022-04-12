@@ -24,15 +24,13 @@ public class SearchChooseFlight {
     @When("I choose {string} as the departure city")
     public void i_choose_as_the_departure_city(String string) {
         driver.findElement(By.name("fromPort")).click();
-        //driver.findElement(By.cssSelector("option[value="+string+"]")).click();
-        driver.findElement(By.xpath("/html/body/div[3]/form/select[1]/option[5]")).click();
+        driver.findElement(By.cssSelector("option[value=\""+string+"\"]")).click();
     }
 
     @When("I choose {string} as the destination city")
     public void i_choose_as_the_destination_city(String string) {
         driver.findElement(By.name("toPort")).click();
-        //driver.findElement(By.cssSelector("option[value="+string+"]")).click();
-        driver.findElement(By.xpath("/html/body/div[3]/form/select[2]/option[3]")).click();
+        driver.findElement(By.cssSelector("option[value=\""+string+"\"]")).click();
     }
 
     @When("I click on {string} button")
@@ -50,7 +48,7 @@ public class SearchChooseFlight {
 
     @Then("I choose the flight option number {int}")
     public void i_choose_the_flight_option_number(Integer option) {
-        driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr[2]/td[1]/input")).click();
+        driver.findElement(By.xpath("/html/body/div[2]/table/tbody/tr["+option+"]/td[1]/input")).click();
     }
 
     @Then("I should see {string} on my screen")
