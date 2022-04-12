@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.tqs.lab3_2.CarRestControllerTemplateITTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.347 s - in com.tqs.lab3_2.CarRestControllerTemplateITTest

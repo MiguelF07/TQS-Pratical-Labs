@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Car.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab3_2</a> &gt; <a href="index.source.html" class="el_package">com.tqs.lab3_2.Model</a> &gt; <span class="el_source">Car.java</span></div><h1>Car.java</h1><pre class="source lang-java linenums">package com.tqs.lab3_2.Model;
+
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Car {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long carId;
+    private String maker;
+    private String model;
+
+<span class="fc" id="L19">    public Car() {</span>
+<span class="fc" id="L20">    }</span>
+
+<span class="fc" id="L22">    public Car(String maker, String model) {</span>
+<span class="fc" id="L23">        this.maker = maker;</span>
+<span class="fc" id="L24">        this.model = model;</span>
+<span class="fc" id="L25">    }</span>
+
+
+    public Long getCarId() {
+<span class="fc" id="L29">        return this.carId;</span>
+    }
+
+    public void setCarId(Long carId) {
+<span class="fc" id="L33">        this.carId = carId;</span>
+<span class="fc" id="L34">    }</span>
+
+    public String getMaker() {
+<span class="fc" id="L37">        return this.maker;</span>
+    }
+
+    public void setMaker(String maker) {
+<span class="fc" id="L41">        this.maker = maker;</span>
+<span class="fc" id="L42">    }</span>
+
+    public String getModel() {
+<span class="fc" id="L45">        return this.model;</span>
+    }
+
+    public void setModel(String model) {
+<span class="fc" id="L49">        this.model = model;</span>
+<span class="fc" id="L50">    }</span>
+
+    
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (o == this)</span>
+<span class="fc" id="L57">            return true;</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (!(o instanceof Car)) {</span>
+<span class="nc" id="L59">            return false;</span>
+        }
+<span class="nc" id="L61">        Car car = (Car) o;</span>
+<span class="nc bnc" id="L62" title="All 6 branches missed.">        return Objects.equals(carId, car.carId) &amp;&amp; Objects.equals(maker, car.maker) &amp;&amp; Objects.equals(model, car.model);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L67">        return Objects.hash(carId, maker, model);</span>
+    }
+
+
+    @Override
+    public String toString() {
+<span class="nc" id="L73">        return &quot;{&quot; +</span>
+<span class="nc" id="L74">            &quot; carId='&quot; + getCarId() + &quot;'&quot; +</span>
+<span class="nc" id="L75">            &quot;, maker='&quot; + getMaker() + &quot;'&quot; +</span>
+<span class="nc" id="L76">            &quot;, model='&quot; + getModel() + &quot;'&quot; +</span>
+            &quot;}&quot;;
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
