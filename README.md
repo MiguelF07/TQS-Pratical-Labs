@@ -8,6 +8,7 @@ This is the repository where I'll keep my TQS Pratical Guides updated and ready 
 - Lab 3 - Complete
 - Lab 4 - Complete
 - Lab 5 - Complete
+- Lab 6 - Complete
 
 Miguel Ferreira 98599
 

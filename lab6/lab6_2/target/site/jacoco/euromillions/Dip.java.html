@@ -45,7 +45,7 @@ public class Dip {
             }
 <span class="fc" id="L46">            numbers.add(arrayOfNumbers);</span>
 <span class="fc" id="L47">            starts.add(arrayOfStarts);</span>
-        } else {
+<span class="fc" id="L48">        } else {</span>
 <span class="fc" id="L49">            throw new IllegalArgumentException(&quot;wrong number of elements in numbers/stars&quot;);</span>
         }
 
@@ -65,18 +65,18 @@ public class Dip {
 <span class="fc" id="L65">        Dip randomDip = new Dip();</span>
 <span class="fc bfc" id="L66" title="All 2 branches covered.">        for (int i = 0; i &lt; NUM_OF_NUMBERS; ) {</span>
 <span class="fc" id="L67">            int candidate = generator.nextInt(MAX_RANGE_NUMBERS-1) + 1;</span>
-<span class="fc bfc" id="L68" title="All 2 branches covered.">            if (!randomDip.getNumbersColl().contains(candidate)) {</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">            if (!randomDip.getNumbersColl().contains(candidate)) {</span>
 <span class="fc" id="L69">                randomDip.getNumbersColl().add(candidate);</span>
 <span class="fc" id="L70">                i++;</span>
             }
-<span class="fc" id="L72">        }</span>
+        }
 <span class="fc bfc" id="L73" title="All 2 branches covered.">        for (int i = 0; i &lt; NUM_OF_STARS; ) {</span>
 <span class="fc" id="L74">            int candidate = generator.nextInt(MAX_RANGE_STARS-1) + 1;</span>
-<span class="fc bfc" id="L75" title="All 2 branches covered.">            if (!randomDip.getStarsColl().contains(candidate)) {</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            if (!randomDip.getStarsColl().contains(candidate)) {</span>
 <span class="fc" id="L76">                randomDip.getStarsColl().add(candidate);</span>
 <span class="fc" id="L77">                i++;</span>
             }
-<span class="fc" id="L79">        }</span>
+        }
 <span class="fc" id="L80">        return randomDip;</span>
     }
 
@@ -118,11 +118,11 @@ public class Dip {
 <span class="fc" id="L118">        sb.append(&quot;N[&quot;);</span>
 <span class="fc bfc" id="L119" title="All 2 branches covered.">        for (int number : getNumbersColl()) {</span>
 <span class="fc" id="L120">            sb.append(String.format(&quot;%3d&quot;, number));</span>
-<span class="fc" id="L121">        }</span>
+        }
 <span class="fc" id="L122">        sb.append(&quot;] S[&quot;);</span>
 <span class="fc bfc" id="L123" title="All 2 branches covered.">        for (int star : getStarsColl()) {</span>
 <span class="fc" id="L124">            sb.append(String.format(&quot;%3d&quot;, star));</span>
-<span class="fc" id="L125">        }</span>
+        }
 <span class="fc" id="L126">        sb.append(&quot;]&quot;);</span>
 <span class="fc" id="L127">        return sb.toString();</span>
     }

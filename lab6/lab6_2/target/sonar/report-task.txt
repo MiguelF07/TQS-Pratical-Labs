@@ -1,6 +1,6 @@
-projectKey=lab6_2
+projectKey=lab6_3
 serverUrl=http://localhost:9000
 serverVersion=9.4.0.54424
-dashboardUrl=http://localhost:9000/dashboard?id=lab6_2
-ceTaskId=AYAfY3QV98vqdJAjiZSz
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYAfY3QV98vqdJAjiZSz
+dashboardUrl=http://localhost:9000/dashboard?id=lab6_3
+ceTaskId=AYAjvu0zEzDY-S_DxGzz
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYAjvu0zEzDY-S_DxGzz
