@@ -2,7 +2,7 @@ import React from 'react'
 
 function Dropdown({label,options,value,onChange}) {
   return (
-    <div>
+    <div style={{float:"left"}}>
     <label>
         {label}
         <br></br>

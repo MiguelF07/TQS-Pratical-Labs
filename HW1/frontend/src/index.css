@@ -22,8 +22,27 @@ code {
   border-radius: 5px;
 }
 .header {
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  align-content: center;
+  margin-bottom: 70px;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.small_container {
+  width: 50%;
+  margin-left: 30px;
+  overflow: auto;
+  min-height: 400px;
+  border: 1px solid red;
+  padding: 30px;
+  border-radius: 5px;
+  float: right;
+  display: flex; 
+  justify-content:center;
+  position: relative;
+  right: 0%;
+
 }

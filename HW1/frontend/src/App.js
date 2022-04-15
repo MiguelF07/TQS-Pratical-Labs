@@ -1,6 +1,7 @@
 import './App.css';
 import Header from './components/Header';
 import Dropdown from './components/Dropdown';
+import SmallContainer from './components/SmallContainer';
 import {useState,useEffect} from 'react'
 
 function App() {
@@ -29,7 +30,12 @@ function App() {
   return (
     <div className="container">
       <Header text={"COVID-19 Statistics"}/>
-      <Dropdown label="Select a country" options={options} value={value} onChange={handleChange}/>
+      <div style={{flexDirection:"row"}}>
+        <Dropdown label="Select a country" options={options} value={value} onChange={handleChange}/>
+        <SmallContainer/>
+      </div>
+
+       
     </div>
   );
 }
