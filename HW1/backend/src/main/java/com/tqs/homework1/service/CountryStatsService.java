@@ -39,4 +39,15 @@ public class CountryStatsService {
         }
         return this.countries;
     }
+
+    public void getStatisticsByCountry(String country) throws IOException, InterruptedException {
+        request = HttpRequest.newBuilder()
+		.uri(URI.create("https://covid-193.p.rapidapi.com/statistics?country="+country))
+		.header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
+		.header("X-RapidAPI-Key", "1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244")
+		.method("GET", HttpRequest.BodyPublishers.noBody())
+		.build();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+    }
 }
