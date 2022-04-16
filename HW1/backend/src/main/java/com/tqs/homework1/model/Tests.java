@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Tests {
     private String oneM_pop;
-    private String total;
+    private Long total;
 
 
-    public Tests(String oneM_pop, String total) {
+    public Tests(String oneM_pop, Long total) {
         this.oneM_pop = oneM_pop;
         this.total = total;
     }
@@ -21,13 +21,14 @@ public class Tests {
         this.oneM_pop = oneM_pop;
     }
 
-    public String getTotal() {
+    public Long getTotal() {
         return this.total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(Long total) {
         this.total = total;
     }
+
 
 
     @Override
@@ -54,5 +55,6 @@ public class Tests {
             ", total='" + getTotal() + "'" +
             "}";
     }
+    
     
 }

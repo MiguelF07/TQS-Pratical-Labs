@@ -4,17 +4,18 @@ import java.util.Objects;
 
 public class Cases {
     private String newCases;
-    private String active;
-    private String Critical;
-    private String recovered;
+    private Long active;
+    private Long critical;
+    private Long recovered;
     private String oneM_pop;
-    private String total;
+    private Long total;
 
 
-    public Cases(String newCases, String active, String Critical, String recovered, String oneM_pop, String total) {
+
+    public Cases(String newCases, Long active, Long critical, Long recovered, String oneM_pop, Long total) {
         this.newCases = newCases;
         this.active = active;
-        this.Critical = Critical;
+        this.critical = critical;
         this.recovered = recovered;
         this.oneM_pop = oneM_pop;
         this.total = total;
@@ -29,27 +30,27 @@ public class Cases {
         this.newCases = newCases;
     }
 
-    public String getActive() {
+    public Long getActive() {
         return this.active;
     }
 
-    public void setActive(String active) {
+    public void setActive(Long active) {
         this.active = active;
     }
 
-    public String getCritical() {
-        return this.Critical;
+    public Long getCritical() {
+        return this.critical;
     }
 
-    public void setCritical(String Critical) {
-        this.Critical = Critical;
+    public void setCritical(Long critical) {
+        this.critical = critical;
     }
 
-    public String getRecovered() {
+    public Long getRecovered() {
         return this.recovered;
     }
 
-    public void setRecovered(String recovered) {
+    public void setRecovered(Long recovered) {
         this.recovered = recovered;
     }
 
@@ -61,11 +62,11 @@ public class Cases {
         this.oneM_pop = oneM_pop;
     }
 
-    public String getTotal() {
+    public Long getTotal() {
         return this.total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(Long total) {
         this.total = total;
     }
 
@@ -78,12 +79,12 @@ public class Cases {
             return false;
         }
         Cases cases = (Cases) o;
-        return Objects.equals(newCases, cases.newCases) && Objects.equals(active, cases.active) && Objects.equals(Critical, cases.Critical) && Objects.equals(recovered, cases.recovered) && Objects.equals(oneM_pop, cases.oneM_pop) && Objects.equals(total, cases.total);
+        return Objects.equals(newCases, cases.newCases) && Objects.equals(active, cases.active) && Objects.equals(critical, cases.critical) && Objects.equals(recovered, cases.recovered) && Objects.equals(oneM_pop, cases.oneM_pop) && Objects.equals(total, cases.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(newCases, active, Critical, recovered, oneM_pop, total);
+        return Objects.hash(newCases, active, critical, recovered, oneM_pop, total);
     }
 
 
@@ -92,12 +93,13 @@ public class Cases {
         return "{" +
             " newCases='" + getNewCases() + "'" +
             ", active='" + getActive() + "'" +
-            ", Critical='" + getCritical() + "'" +
+            ", critical='" + getCritical() + "'" +
             ", recovered='" + getRecovered() + "'" +
             ", oneM_pop='" + getOneM_pop() + "'" +
             ", total='" + getTotal() + "'" +
             "}";
     }
+    
 
 
 }

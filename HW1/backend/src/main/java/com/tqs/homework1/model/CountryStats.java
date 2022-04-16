@@ -5,7 +5,7 @@ import java.util.Objects;
 public class CountryStats {
     private String continent;
     private String country;
-    private int population;
+    private Long population;
     private Cases cases;
     private Deaths deaths;
     private Tests tests;
@@ -13,7 +13,7 @@ public class CountryStats {
     private String time;
     
 
-    public CountryStats(String continent, String country, int population, Cases cases, Deaths deaths, Tests tests, String day, String time) {
+    public CountryStats(String continent, String country, Long population, Cases cases, Deaths deaths, Tests tests, String day, String time) {
         this.continent = continent;
         this.country = country;
         this.population = population;
@@ -41,11 +41,11 @@ public class CountryStats {
         this.country = country;
     }
 
-    public int getPopulation() {
+    public Long getPopulation() {
         return this.population;
     }
 
-    public void setPopulation(int population) {
+    public void setPopulation(Long population) {
         this.population = population;
     }
 
@@ -90,6 +90,7 @@ public class CountryStats {
     }
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -97,8 +98,8 @@ public class CountryStats {
         if (!(o instanceof CountryStats)) {
             return false;
         }
-        CountryStats covidStats = (CountryStats) o;
-        return Objects.equals(continent, covidStats.continent) && Objects.equals(country, covidStats.country) && population == covidStats.population && Objects.equals(cases, covidStats.cases) && Objects.equals(deaths, covidStats.deaths) && Objects.equals(tests, covidStats.tests) && Objects.equals(day, covidStats.day) && Objects.equals(time, covidStats.time);
+        CountryStats countryStats = (CountryStats) o;
+        return Objects.equals(continent, countryStats.continent) && Objects.equals(country, countryStats.country) && Objects.equals(population, countryStats.population) && Objects.equals(cases, countryStats.cases) && Objects.equals(deaths, countryStats.deaths) && Objects.equals(tests, countryStats.tests) && Objects.equals(day, countryStats.day) && Objects.equals(time, countryStats.time);
     }
 
     @Override
@@ -120,5 +121,6 @@ public class CountryStats {
             ", time='" + getTime() + "'" +
             "}";
     }
+    
     
 }

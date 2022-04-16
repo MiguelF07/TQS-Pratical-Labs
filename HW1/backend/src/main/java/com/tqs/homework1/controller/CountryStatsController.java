@@ -3,7 +3,10 @@ package com.tqs.homework1.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.tqs.homework1.exceptions.ResourceNotFoundException;
+import com.tqs.homework1.model.CountryStats;
 import com.tqs.homework1.service.CountryStatsService;
 
 import org.json.simple.parser.ParseException;
@@ -31,13 +34,23 @@ public class CountryStatsController {
         return ResponseEntity.ok().body(data);
     }
 
-    // @GetMapping("/statistics/{country}")
-    // public ResponseEntity<List<String>> getStatByCountry(@PathVariable(value="country") String country) throws IOException, InterruptedException, ParseException {
-    //     List<String> data = new ArrayList<>();
-    //     for( String country : service.getCountriesList()) {
-    //         data.add(country);
+    @GetMapping("/statistics/{country}")
+    public ResponseEntity<CountryStats> getStatByCountry(@PathVariable(value="country") String country) throws IOException, InterruptedException, ParseException, ResourceNotFoundException {
+        Optional<CountryStats> data = service.getStatisticsByCountry(country);
+        if(data.isEmpty()) {
+            throw new ResourceNotFoundException("Data not found for this country :: " + country);
+        }
+        return ResponseEntity.ok().body(data.get());
+    }
+    // @GetMapping("/bola")
+    // public void tryIt() throws IOException, InterruptedException, ParseException {
+    //     Optional<CountryStats> res = service.getStatisticsByCountry("portugal");
+    //     if(res.isEmpty()) {
+    //         System.out.println("No Data");
     //     }
-    //     return ResponseEntity.ok().body(data);
+    //     else {
+    //         System.out.println(res.get());
+    //     }
     // }
 
 

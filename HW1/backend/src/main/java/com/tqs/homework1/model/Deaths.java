@@ -5,10 +5,10 @@ import java.util.Objects;
 public class Deaths {
     private String newDeaths;
     private String oneM_pop;
-    private String total;
+    private Long total;
 
 
-    public Deaths(String newDeaths, String oneM_pop, String total) {
+    public Deaths(String newDeaths, String oneM_pop, Long total) {
         this.newDeaths = newDeaths;
         this.oneM_pop = oneM_pop;
         this.total = total;
@@ -31,13 +31,14 @@ public class Deaths {
         this.oneM_pop = oneM_pop;
     }
 
-    public String getTotal() {
+    public Long getTotal() {
         return this.total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(Long total) {
         this.total = total;
     }
+
 
 
 
@@ -66,5 +67,6 @@ public class Deaths {
             ", total='" + getTotal() + "'" +
             "}";
     }
+    
 
 }
