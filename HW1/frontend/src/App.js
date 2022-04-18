@@ -9,10 +9,37 @@ import Col from 'react-bootstrap/Col'
 function App() {
 
   const [value, setValue] = useState();
-  const [options,setOptions] = useState([])
+  const [options,setOptions] = useState([]);
+  const [data,setData] = useState("No Data");
+
+  const fetchStatistics = (value) => {
+//Fazer o value concatenar com o fetch e fazer com que o data seja updated
+    var lowerValue = value.toLowerCase();
+    return fetch(`http://localhost:8080/api/statistics/${lowerValue}`)
+    .then((response => response.json()))
+    // .then((jsondata) => {
+    //   console.log(jsondata)
+    //   setData(jsondata)
+    //   // console.log(data)
+    // })
+    // .then(jsondata => {return jsondata})
+  };
+
+  const getStatistics = (value) => {
+    return (fetchStatistics(value))
+  }
+
   const handleChange = (event) => {
     setValue(event.target.value);
+    getStatistics(event.target.value).then((dataReceived) => {
+      console.log("Hey")
+      console.log(dataReceived)
+      let tmp = JSON.stringify(dataReceived)
+      //let tmp = JSON.parse(dataReceived)
+      setData(tmp)
+    })
   };
+
 
   //Fetch the countries
   useEffect(() => {
@@ -37,7 +64,7 @@ function App() {
           <Dropdown label="Select a country" options={options} value={value} onChange={handleChange}/>
         </Col>
         <Col>
-        <SmallContainer/>
+        <SmallContainer data={data}/>
         </Col>
       </Row>
 

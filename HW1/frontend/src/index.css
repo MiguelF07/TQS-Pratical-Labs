@@ -16,7 +16,7 @@ code {
   max-width: 1000px;
   margin: 30px auto;
   overflow: auto;
-  min-height: 600px;
+  min-height: 650px;
   border: 1px solid red;
   padding: 30px;
   border-radius: 5px;
@@ -35,13 +35,11 @@ code {
   width: 50%;
   margin-left: 30px;
   overflow: auto;
-  min-height: 400px;
+  min-height: 450px;
   border: 1px solid red;
   padding: 30px;
   border-radius: 5px;
   float: right;
-  display: flex; 
-  justify-content:center;
   position: relative;
   right: 0%;
 

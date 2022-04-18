@@ -1,8 +1,20 @@
 import React from 'react'
+import {useState,useEffect} from 'react'
+import DisplayStatistic from './DisplayStatistic'
+import Row from 'react-bootstrap/Row'
 
-function SmallContainer() {
+
+function SmallContainer({data}) {
+  
   return (
-    <div className='small_container'>SmallContainer</div>
+    <div className='small_container'>
+    <Row>
+    <h3>COVID-19 Statistics</h3>
+    </Row>
+    <Row>
+    <DisplayStatistic data={data}/>
+    </Row>
+    </div>
   )
 }
 
