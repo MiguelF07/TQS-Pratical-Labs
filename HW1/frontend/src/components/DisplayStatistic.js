@@ -19,6 +19,8 @@ function DisplayStatistic({data}) {
             <b>Continent: </b> {tmp.continent===null ? <i>Null</i> : tmp.continent} <br/>
             <b>Country: </b> {tmp.country===null ? <i>Null</i> : tmp.country} <br/>
             <b>Population: </b> {tmp.population===null ? <i>Null</i> : tmp.population} <br/>
+            <b>Day: </b> {tmp.day===null ? <i>Null</i> : tmp.day} <br/>
+            <b>Time: </b> {tmp.time===null ? <i>Null</i> : tmp.time} <br/>
             <br/>
             <b>New Cases: </b> {tmp.cases.newCases===null ? <i>Null</i> : tmp.cases.newCases} <br/>
             <b>Active Cases: </b> {tmp.cases.active===null ? <i>Null</i> : tmp.cases.active} <br/>
@@ -34,8 +36,13 @@ function DisplayStatistic({data}) {
             <b>Tests per 1M: </b> {tmp.tests.oneM_pop===null ? <i>Null</i> : tmp.tests.oneM_pop} <br/>
             <b>Total Tests: </b> {tmp.tests.total===null ? <i>Null</i> : tmp.tests.total} <br/>
             <br/>
-            <b>Day: </b> {tmp.day===null ? <i>Null</i> : tmp.day} <br/>
-            <b>Time: </b> {tmp.time===null ? <i>Null</i> : tmp.time} <br/>
+            <b>--------------------------------</b>
+            <b>New Deaths: </b> {tmp.deaths.newDeaths===null ? <i>Null</i> : tmp.deaths.newDeaths} <br/>
+            <b>Deaths per 1M: </b> {tmp.deaths.oneM_pop===null ? <i>Null</i> : tmp.deaths.oneM_pop} <br/>
+            <b>Total Deaths: </b> {tmp.deaths.total===null ? <i>Null</i> : tmp.deaths.total} <br/>
+            <br/>
+            <b>Tests per 1M: </b> {tmp.tests.oneM_pop===null ? <i>Null</i> : tmp.tests.oneM_pop} <br/>
+            <b>Total Tests: </b> {tmp.tests.total===null ? <i>Null</i> : tmp.tests.total} <br/>
             </>
             
 
