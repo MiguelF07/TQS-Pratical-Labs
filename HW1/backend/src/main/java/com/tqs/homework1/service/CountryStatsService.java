@@ -73,4 +73,8 @@ public class CountryStatsService {
 
         return Optional.of(stats);
     }
+
+    // public List<Optional<CountryStats>> getHistoryByCountry(String country,String date1,String date2) {
+        
+    // }
 }

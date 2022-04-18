@@ -1,5 +1,6 @@
 /Users/miguelferreira/Desktop/2º Semestre/TQS/TQS_98599/HW1/backend/src/main/java/com/tqs/homework1/model/CountryStats.java
 /Users/miguelferreira/Desktop/2º Semestre/TQS/TQS_98599/HW1/backend/src/main/java/com/tqs/homework1/service/CountryStatsService.java
+/Users/miguelferreira/Desktop/2º Semestre/TQS/TQS_98599/HW1/backend/src/main/java/com/tqs/homework1/exceptions/ResourceNotFoundException.java
 /Users/miguelferreira/Desktop/2º Semestre/TQS/TQS_98599/HW1/backend/src/main/java/com/tqs/homework1/model/Cases.java
 /Users/miguelferreira/Desktop/2º Semestre/TQS/TQS_98599/HW1/backend/src/main/java/com/tqs/homework1/model/Deaths.java
 /Users/miguelferreira/Desktop/2º Semestre/TQS/TQS_98599/HW1/backend/src/main/java/com/tqs/homework1/model/Tests.java

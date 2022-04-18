@@ -27,10 +27,7 @@ public class CountryStatsController {
 
     @GetMapping("/countries")
     public ResponseEntity<List<String>> getCountries() throws IOException, InterruptedException, ParseException {
-        List<String> data = new ArrayList<>();
-        for( String country : service.getCountriesList()) {
-            data.add(country);
-        }
+        List<String> data = new ArrayList<>(service.getCountriesList());
         return ResponseEntity.ok().body(data);
     }
 
@@ -42,16 +39,8 @@ public class CountryStatsController {
         }
         return ResponseEntity.ok().body(data.get());
     }
-    // @GetMapping("/bola")
-    // public void tryIt() throws IOException, InterruptedException, ParseException {
-    //     Optional<CountryStats> res = service.getStatisticsByCountry("portugal");
-    //     if(res.isEmpty()) {
-    //         System.out.println("No Data");
-    //     }
-    //     else {
-    //         System.out.println(res.get());
-    //     }
-    // }
+
+    //@GetMapping("/")
 
 
 }

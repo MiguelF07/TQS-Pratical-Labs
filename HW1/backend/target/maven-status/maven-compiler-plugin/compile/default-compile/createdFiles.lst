@@ -1,0 +1,8 @@
+com/tqs/homework1/model/Deaths.class
+com/tqs/homework1/model/Cases.class
+com/tqs/homework1/model/CountryStats.class
+com/tqs/homework1/service/CountryStatsService.class
+com/tqs/homework1/model/Tests.class
+com/tqs/homework1/controller/CountryStatsController.class
+com/tqs/homework1/Homework1Application.class
+com/tqs/homework1/exceptions/ResourceNotFoundException.class
