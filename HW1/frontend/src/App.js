@@ -49,9 +49,9 @@ function App() {
 
   return (
     <div className="container">
-      <Header text={"COVID-19 Statistics"}/>
+      <Header text={"COVID-19 Dashboard"}/>
       <Row>
-        <Col>
+        <Col style={{marginLeft:"5%"}}>
           <Dropdown label="Select a country" options={options} value={value} onChange={handleChange}/>
         </Col>
         <Col>

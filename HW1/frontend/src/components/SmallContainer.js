@@ -9,7 +9,7 @@ function SmallContainer({data}) {
   return (
     <div className='small_container'>
     <Row>
-    <h3>COVID-19 Statistics</h3>
+    <h4>COVID-19 Statistics</h4>
     </Row>
     <Row>
     <DisplayStatistic data={data}/>
