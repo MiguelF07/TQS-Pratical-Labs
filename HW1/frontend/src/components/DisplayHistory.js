@@ -1,11 +1,13 @@
 import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import {useState,useEffect} from 'react'
 
 function DisplayHistory({historyData,days}) {
     let hasData=false
     let tmp;
-    let history=[]
+    let history = [];
+    //const [history, setHistory] = useState([]);
     if(historyData!=="No History Data")
     {
         tmp = JSON.parse(historyData)
@@ -13,11 +15,15 @@ function DisplayHistory({historyData,days}) {
         for(let i=0; i<=days;i++) {
           history.push(tmp[i])
         }
-      }
+        console.log("HISTORICO")
+        console.log(history.toString())
+    }
 
     const displayStuff = () => {
+      let teste = Object.assign([],history)
+      history= Object.assign([])
       return <>
-      {history.map((stat,index) => (
+      {teste.map((stat,index) => (
         <>
         <b>Continent: </b> {stat.continent===null ? <i>Null</i> : stat.continent} <br/>
         <b>Country: </b> {stat.country===null ? <i>Null</i> : stat.country} <br/>
@@ -48,7 +54,7 @@ function DisplayHistory({historyData,days}) {
     <Row>
         <Col>
         <p>{hasData ? "": "No Data To Show"}</p>
-        {hasData && displayStuff()}
+        {hasData && history && displayStuff()}
         </Col>
     </Row>
   )

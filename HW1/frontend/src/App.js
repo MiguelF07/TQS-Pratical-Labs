@@ -35,15 +35,20 @@ function App() {
   const getHistory = (value,startDate,endDate) => {
     fetchHistory(value,startDate,endDate).then((dataReceived) => {
       let tmp = JSON.stringify(dataReceived)
+      console.log("HISTORICO MAS NO FETCJ")
+      console.log(tmp)
       setHistoryData(tmp)
+      setIsHistory(true)
+      var end = moment(endDate)
+      var start = moment(startDate)
+      var duration = moment.duration(end.diff(start));
+      var days = duration.asDays();
+      setDays(days)
     })
-    setIsHistory(true)
-    var end = moment(endDate)
-    var start = moment(startDate)
-    var duration = moment.duration(end.diff(start));
-    var days = duration.asDays();
-    setDays(days)
+    
   }
+
+
 
   const fetchHistory = (value,startDate,endDate) => {
     if(startDate!==null && endDate!==null && value!==null) {
@@ -87,7 +92,6 @@ function App() {
           <Dropdown label="Select a country" options={options} value={value} onChange={buttonChange}/>
           <br/>
           <p>From: </p>
-          {/* <DatePicker selected={startDate} onChange={date => setStartDate(date)} /> */}
           <ReactUTCDatepicker button={false} format={'YYYY-MM-DD'} date={startDate} onChange={date => setStartDate(date) }/>
           <br/>
           <br/>
