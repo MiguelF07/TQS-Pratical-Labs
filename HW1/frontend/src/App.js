@@ -11,18 +11,12 @@ function App() {
   const [value, setValue] = useState();
   const [options,setOptions] = useState([]);
   const [data,setData] = useState("No Data");
+  const [isHistory,setIsHistory] = useState(false);
 
   const fetchStatistics = (value) => {
-//Fazer o value concatenar com o fetch e fazer com que o data seja updated
     var lowerValue = value.toLowerCase();
     return fetch(`http://localhost:8080/api/statistics/${lowerValue}`)
     .then((response => response.json()))
-    // .then((jsondata) => {
-    //   console.log(jsondata)
-    //   setData(jsondata)
-    //   // console.log(data)
-    // })
-    // .then(jsondata => {return jsondata})
   };
 
   const getStatistics = (value) => {
@@ -32,10 +26,8 @@ function App() {
   const handleChange = (event) => {
     setValue(event.target.value);
     getStatistics(event.target.value).then((dataReceived) => {
-      console.log("Hey")
       console.log(dataReceived)
       let tmp = JSON.stringify(dataReceived)
-      //let tmp = JSON.parse(dataReceived)
       setData(tmp)
     })
   };
@@ -45,7 +37,6 @@ function App() {
   useEffect(() => {
     fetch(`http://localhost:8080/api/countries`)
     .then(response => response.json())
-    //.then(jsondata => console.log(jsondata))
     .then(jsondata => {
       let tmpArray = []
       for (var i = 0; i < jsondata.length; i++) {

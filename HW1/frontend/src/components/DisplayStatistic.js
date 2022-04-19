@@ -36,16 +36,9 @@ function DisplayStatistic({data}) {
             <b>Tests per 1M: </b> {tmp.tests.oneM_pop===null ? <i>Null</i> : tmp.tests.oneM_pop} <br/>
             <b>Total Tests: </b> {tmp.tests.total===null ? <i>Null</i> : tmp.tests.total} <br/>
             <br/>
-            <b>--------------------------------</b>
-            <b>New Deaths: </b> {tmp.deaths.newDeaths===null ? <i>Null</i> : tmp.deaths.newDeaths} <br/>
-            <b>Deaths per 1M: </b> {tmp.deaths.oneM_pop===null ? <i>Null</i> : tmp.deaths.oneM_pop} <br/>
-            <b>Total Deaths: </b> {tmp.deaths.total===null ? <i>Null</i> : tmp.deaths.total} <br/>
-            <br/>
-            <b>Tests per 1M: </b> {tmp.tests.oneM_pop===null ? <i>Null</i> : tmp.tests.oneM_pop} <br/>
-            <b>Total Tests: </b> {tmp.tests.total===null ? <i>Null</i> : tmp.tests.total} <br/>
+            <b>--------------------------------</b><br/>
             </>
             
-
         }
         
         </Col>

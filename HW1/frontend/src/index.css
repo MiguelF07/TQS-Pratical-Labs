@@ -39,7 +39,7 @@ code {
   border: 1px solid red;
   padding: 30px;
   border-radius: 5px;
-  float: right;
+  float: right; 
   position: relative;
   right: 0%;
   overflow-y: scroll;
