@@ -1,6 +1,7 @@
 package com.tqs.homework1.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,18 +42,25 @@ public class CountryStatsController {
         return ResponseEntity.ok().body(data.get());
     }
 
-    //@GetMapping("/")
+    @GetMapping("/history/{country}/{date1}")
+    public ResponseEntity<List<CountryStats>> getHistByCountry(@PathVariable(value="country") String country, @PathVariable(value="date1") String date1, @RequestParam(required = false) String date2) throws IOException, InterruptedException, ParseException, ResourceNotFoundException {
+        LocalDate begin = LocalDate.parse(date1);
+        LocalDate end = null;
+        if(date2!=null) {
+            end = LocalDate.parse(date2);
+        }
+
+        List<Optional<CountryStats>> data = service.getHistoryByCountry(country,begin,end);
+        List<CountryStats> finalResults = new ArrayList<>();
+        for(Optional<CountryStats> piece : data) {
+            if(piece.isPresent())
+            {
+                finalResults.add(piece.get());
+            }
+        }
+        return ResponseEntity.ok().body(finalResults);
+        //http://localhost:8080/api/history/portugal/2022-02-07?date2=2022-02-09
+    }
 
 
 }
-
-// @GetMapping("/movies/{id}") //One Movie resource is fetched
-// public ResponseEntity<Movie> getMovieById(@PathVariable(value = "id") Long movieId)
-//     throws ResourceNotFoundException {
-//     Movie movie = service.getMovieById(movieId);
-//     if(movie==null)
-//     {
-//         throw new ResourceNotFoundException("Movie not found for this id :: " + movieId);
-//     }
-//     return ResponseEntity.ok().body(movie);
-// }
