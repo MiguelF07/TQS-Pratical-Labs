@@ -2,17 +2,18 @@ import React from 'react'
 import {useState,useEffect} from 'react'
 import DisplayStatistic from './DisplayStatistic'
 import Row from 'react-bootstrap/Row'
+import DisplayHistory from './DisplayHistory'
 
 
-function SmallContainer({data}) {
+function SmallContainer({data,hasHistory,historyData,days}) {
   
   return (
     <div className='small_container'>
     <Row>
-    <h4>COVID-19 Statistics</h4>
+    {hasHistory ? <h4>COVID-19 History</h4> : <h4>COVID-19 Most Recent Statistics</h4>}
     </Row>
     <Row>
-    <DisplayStatistic data={data}/>
+    {hasHistory ? <DisplayHistory historyData={historyData} days={days}/> : <DisplayStatistic data={data}/>}
     </Row>
     </div>
   )
