@@ -7,6 +7,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.tqs.homework1.cache.Cache;
@@ -53,36 +55,51 @@ public class CountryStatsService {
                 cacheData.put(c,null);
             }
             cache.setCacheData(cacheData);
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Fetched list of Countries from API");
             return this.countries;
         }
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Fetched list of Countries from Cache");
         return cacheCountries;
     }
 
     public Optional<CountryStats> getStatisticsByCountry(String country) throws IOException, InterruptedException, ParseException {
-        request = HttpRequest.newBuilder()
-		.uri(URI.create("https://covid-193.p.rapidapi.com/statistics?country="+country))
-		.header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
-		.header("X-RapidAPI-Key", "1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244")
-		.method("GET", HttpRequest.BodyPublishers.noBody())
-		.build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-        JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());  
-        Long result = (Long) jsonObj.get("results");
-        if(result==0) //There are no statistics for the asked country
-        {
-            return Optional.empty();
+        if(cache.getCountries().size()==0) {
+            this.getCountriesList();
         }
-        JSONObject responseJson = (JSONObject)((JSONArray) jsonObj.get("response")).get(0);
-        JSONObject casesJson = (JSONObject) responseJson.get("cases");
-        JSONObject deathsJson = (JSONObject) responseJson.get("deaths");
-        JSONObject testsJson = (JSONObject) responseJson.get("tests");
-        Cases cases = new Cases((String) casesJson.get("new"), (Long) casesJson.get("active"), (Long) casesJson.get("critical"), (Long) casesJson.get("recovered"), (String) casesJson.get("1M_pop"), (Long) casesJson.get("total"));
-        Deaths deaths = new Deaths((String) deathsJson.get("new"), (String) deathsJson.get("1M_pop"), (Long) deathsJson.get("total"));
-        Tests tests = new Tests((String) testsJson.get("1M_pop"),(Long) testsJson.get("total"));
-        CountryStats stats = new CountryStats((String) responseJson.get("continent"), (String) responseJson.get("country"), (Long) responseJson.get("population"), cases, deaths, tests, (String) responseJson.get("day"), (String) responseJson.get("time"));
+        Map<String,CountryStats> cacheData = cache.getCacheData();
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Fetched Countries Data from Cache");
 
-        return Optional.of(stats);
+        if(cacheData.get(country)==null) {
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "No Info of country: "+country+" . Fetching API");
+            request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://covid-193.p.rapidapi.com/statistics?country="+country))
+                    .header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
+                    .header("X-RapidAPI-Key", "1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
+            JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());
+            Long result = (Long) jsonObj.get("results");
+            if(result==0) //There are no statistics for the asked country
+            {
+                return Optional.empty();
+            }
+            JSONObject responseJson = (JSONObject)((JSONArray) jsonObj.get("response")).get(0);
+            JSONObject casesJson = (JSONObject) responseJson.get("cases");
+            JSONObject deathsJson = (JSONObject) responseJson.get("deaths");
+            JSONObject testsJson = (JSONObject) responseJson.get("tests");
+            Cases cases = new Cases((String) casesJson.get("new"), (Long) casesJson.get("active"), (Long) casesJson.get("critical"), (Long) casesJson.get("recovered"), (String) casesJson.get("1M_pop"), (Long) casesJson.get("total"));
+            Deaths deaths = new Deaths((String) deathsJson.get("new"), (String) deathsJson.get("1M_pop"), (Long) deathsJson.get("total"));
+            Tests tests = new Tests((String) testsJson.get("1M_pop"),(Long) testsJson.get("total"));
+            CountryStats stats = new CountryStats((String) responseJson.get("continent"), (String) responseJson.get("country"), (Long) responseJson.get("population"), cases, deaths, tests, (String) responseJson.get("day"), (String) responseJson.get("time"));
+            cacheData.put(country,stats);
+            cache.setCacheData(cacheData);
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Updated cache with country: "+country+" data from API");
+            return Optional.of(stats);
+        }
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Returning country: "+country+" info from Cache");
+        return Optional.of(cacheData.get(country));
     }
 
     public List<Optional<CountryStats>> getHistoryByCountry(String country,LocalDate startDate,LocalDate endDate) throws ParseException, IOException, InterruptedException {

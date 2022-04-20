@@ -21,8 +21,6 @@ public class Cache {
     }
 
     public List<String> getCountries() {
-        System.out.println("PRINTING CACHE COUNTRIES");
-        System.out.println(countries);
         return countries;
     }
 
