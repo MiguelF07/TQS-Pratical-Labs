@@ -6,13 +6,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.tqs.homework1.cache.Cache;
 import com.tqs.homework1.model.Cases;
 import com.tqs.homework1.model.CountryStats;
 import com.tqs.homework1.model.Deaths;
@@ -29,25 +26,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class CountryStatsService {
     private List<String> countries;
+    private Cache cache = new Cache();
 
     private HttpRequest request;
     public List<String> getCountriesList() throws IOException, InterruptedException, ParseException {
-        this.countries = new ArrayList<>();
-        request = HttpRequest.newBuilder()
-		.uri(URI.create("https://covid-193.p.rapidapi.com/countries"))
-		.header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
-		.header("X-RapidAPI-Key", "1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244")
-		.method("GET", HttpRequest.BodyPublishers.noBody())
-		.build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body()); 
-        JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());  
-        JSONArray results = (JSONArray) jsonObj.get("response");
-        for(int i=0;i<results.size();i++) {
-            String c = (String) results.get(i);
-            this.countries.add(c);
+        List<String> cacheCountries = cache.getCountries();
+        if(cacheCountries.size()==0) {
+            this.countries = new ArrayList<>();
+            request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://covid-193.p.rapidapi.com/countries"))
+                    .header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
+                    .header("X-RapidAPI-Key", "1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
+            JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());
+            JSONArray results = (JSONArray) jsonObj.get("response");
+            for(int i=0;i<results.size();i++) {
+                String c = (String) results.get(i);
+                this.countries.add(c);
+            }
+            cache.setCountries(this.countries);
+            Map<String,CountryStats> cacheData = new HashMap<>();
+            for(String c:this.countries) {
+                cacheData.put(c,null);
+            }
+            cache.setCacheData(cacheData);
+            return this.countries;
         }
-        return this.countries;
+        return cacheCountries;
     }
 
     public Optional<CountryStats> getStatisticsByCountry(String country) throws IOException, InterruptedException, ParseException {
