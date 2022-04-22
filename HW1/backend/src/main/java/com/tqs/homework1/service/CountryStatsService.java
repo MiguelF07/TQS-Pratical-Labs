@@ -17,6 +17,7 @@ import com.tqs.homework1.model.CountryStats;
 import com.tqs.homework1.model.Deaths;
 import com.tqs.homework1.model.Tests;
 
+import org.apache.tomcat.jni.Local;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
@@ -51,10 +52,13 @@ public class CountryStatsService {
             }
             cache.setCountries(this.countries);
             Map<String,CountryStats> cacheData = new HashMap<>();
+            Map<String,HashMap<LocalDate,CountryStats>> cacheHistory = new HashMap<>();
             for(String c:this.countries) {
                 cacheData.put(c,null);
+                cacheHistory.put(c.toLowerCase(),new HashMap<>());
             }
             cache.setCacheData(cacheData);
+            cache.setCacheHistory(cacheHistory);
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Fetched list of Countries from API");
             return this.countries;
         }
@@ -95,15 +99,25 @@ public class CountryStatsService {
             CountryStats stats = new CountryStats((String) responseJson.get("continent"), (String) responseJson.get("country"), (Long) responseJson.get("population"), cases, deaths, tests, (String) responseJson.get("day"), (String) responseJson.get("time"));
             cacheData.put(country,stats);
             cache.setCacheData(cacheData);
+            //Putting the data in the CacheHistory
+            addToCacheHistory(country, responseJson, stats);
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Updated cache with country: "+country+" data from API");
             return Optional.of(stats);
         }
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Returning country: "+country+" info from Cache");
+
         return Optional.of(cacheData.get(country));
     }
 
     public List<Optional<CountryStats>> getHistoryByCountry(String country,LocalDate startDate,LocalDate endDate) throws ParseException, IOException, InterruptedException {
+        if(cache.getCountries().size()==0) {
+            this.getCountriesList();
+        }
+        HashMap<LocalDate,CountryStats> cacheCountryHistory = cache.getCacheHistory().get(country);
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Fetched Country: "+country+" History from Cache");
+
         List<Optional<CountryStats>> historyRes = new ArrayList<>();
+        List<CountryStats> historyTemp = new ArrayList<>();
         List<LocalDate> dates = new ArrayList<>();
         if(endDate==null || (startDate.isEqual(endDate))) {
             dates.add(startDate);
@@ -112,8 +126,18 @@ public class CountryStatsService {
             dates=startDate.datesUntil(endDate).collect(Collectors.toList());
             dates.add(endDate);
         }
-        
+
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Dates: "+dates.toString());
+        List<LocalDate> datesInCache = new ArrayList<>();
+        for(LocalDate dateI:dates) {
+            if(cacheCountryHistory.containsKey(dateI)) {
+                datesInCache.add(dateI);
+            }
+        }
+        dates.removeAll(datesInCache);  //This way it will only fetch the ones that are not in cache
+
         for(LocalDate date: dates) {
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Date from API: "+date.toString());
             request = HttpRequest.newBuilder()
             .uri(URI.create("https://covid-193.p.rapidapi.com/history?country="+country+"&day="+date.toString()))
             .header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
@@ -137,8 +161,32 @@ public class CountryStatsService {
             Deaths deaths = new Deaths((String) deathsJson.get("new"), (String) deathsJson.get("1M_pop"), (Long) deathsJson.get("total"));
             Tests tests = new Tests((String) testsJson.get("1M_pop"),(Long) testsJson.get("total"));
             CountryStats stats = new CountryStats((String) responseJson.get("continent"), (String) responseJson.get("country"), (Long) responseJson.get("population"), cases, deaths, tests, (String) responseJson.get("day"), (String) responseJson.get("time"));
-            historyRes.add(Optional.of(stats));
+            historyTemp.add(stats);
+            //Putting the data in the CacheHistory
+            addToCacheHistory(country, responseJson, stats);
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Updated History of country: "+country+" on Cache");
+
+
         }
+        for(LocalDate lD:datesInCache) {
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Date from Cache: "+lD.toString());
+            historyTemp.add(cacheCountryHistory.get(lD));
+        }
+        //ORDER ARRAY
+        historyTemp.sort(Comparator.comparing((CountryStats c) -> LocalDate.parse(c.getDay())));
+        for(CountryStats c:historyTemp) {
+            historyRes.add(Optional.of(c));
+        }
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Final Ordered Array: "+historyRes.toString());
         return historyRes;
+    }
+
+    private void addToCacheHistory(String country, JSONObject responseJson, CountryStats stats) {
+        HashMap<LocalDate,CountryStats> countryHistory = cache.getCacheHistory().get(country);
+        LocalDate dayDate = LocalDate.parse((String) responseJson.get("day"));
+        countryHistory.put(dayDate,stats);
+        Map<String,HashMap<LocalDate,CountryStats>> cacheH = cache.getCacheHistory();
+        cacheH.put(country,countryHistory);
+        cache.setCacheHistory(cacheH);
     }
 }
