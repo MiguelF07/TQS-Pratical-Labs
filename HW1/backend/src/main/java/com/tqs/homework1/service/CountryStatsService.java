@@ -189,4 +189,8 @@ public class CountryStatsService {
         cacheH.put(country,countryHistory);
         cache.setCacheHistory(cacheH);
     }
+
+    public Cache getCache() {
+        return cache;
+    }
 }

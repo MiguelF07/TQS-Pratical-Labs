@@ -39,11 +39,16 @@ function App() {
       console.log(tmp)
       setHistoryData(tmp)
       setIsHistory(true)
-      var end = moment(endDate)
-      var start = moment(startDate)
-      var duration = moment.duration(end.diff(start));
-      var days = duration.asDays();
-      setDays(days)
+      // if(endDate!==null) {
+        var end = moment(endDate)
+        var start = moment(startDate)
+        var duration = moment.duration(end.diff(start));
+        var days = duration.asDays();
+        setDays(days)
+      // }
+      // else {
+      //   setDays(1)
+      // }
     })
     
   }
@@ -57,6 +62,12 @@ function App() {
       return fetch(`http://localhost:8080/api/history/${lowerValue}/${startDate.toString()}?date2=${endDate.toString()}`)
       .then((response => response.json()))
     }
+    // else if(startDate!==null && endDate===null && value!==null) {
+    //   var lowerValue = value.toLowerCase();
+    //   console.log(startDate.toString())
+    //   return fetch(`http://localhost:8080/api/history/${lowerValue}/${startDate.toString()}`)
+    //   .then((response => response.json()))
+    // }
   }
 
   const buttonChange = (event) => {

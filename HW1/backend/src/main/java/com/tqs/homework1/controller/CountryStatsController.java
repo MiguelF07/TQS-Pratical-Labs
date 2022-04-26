@@ -28,6 +28,11 @@ public class CountryStatsController {
     @Autowired
     private CountryStatsService service;
 
+    @GetMapping("/cache")
+    public ResponseEntity<Cache> getCache() {
+        return ResponseEntity.ok().body(service.getCache());
+    }
+
     @GetMapping("/countries")
     public ResponseEntity<List<String>> getCountries() throws IOException, InterruptedException, ParseException {
         List<String> data = new ArrayList<>(service.getCountriesList());
