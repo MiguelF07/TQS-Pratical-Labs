@@ -11,9 +11,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Cache {
-    private List<String> countries;
-    private Map<String, CountryStats> cacheData;
-    private Map<String,HashMap<LocalDate,CountryStats>> cacheHistory;
     //Statistics
     private int num_requests;
     private int num_hits;
@@ -21,17 +18,21 @@ public class Cache {
     private int num_calls_getCountries;
     private int num_calls_getCacheData;
     private int num_calls_getCacheHistory;
+    //Data Structures
+    private List<String> countries;
+    private Map<String, CountryStats> cacheData;
+    private Map<String,HashMap<LocalDate,CountryStats>> cacheHistory;
 
     public Cache() {
-        this.countries = new ArrayList<>();
-        this.cacheData = new HashMap<>();
-        this.cacheHistory = new HashMap<>();
         this.num_requests = 0;
         this.num_hits = 0;
         this.num_misses = 0;
         this.num_calls_getCountries = 0;
         this.num_calls_getCacheData = 0;
         this.num_calls_getCacheHistory = 0;
+        this.countries = new ArrayList<>();
+        this.cacheData = new HashMap<>();
+        this.cacheHistory = new HashMap<>();
 
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
@@ -135,15 +136,15 @@ public class Cache {
     @Override
     public String toString() {
         return "Cache{" +
-                "countries=" + countries +
-                ", cacheData=" + cacheData +
-                ", cacheHistory=" + cacheHistory +
-                ", num_requests=" + num_requests +
+                "num_requests=" + num_requests +
                 ", num_hits=" + num_hits +
                 ", num_misses=" + num_misses +
                 ", num_calls_getCountries=" + num_calls_getCountries +
                 ", num_calls_getCacheData=" + num_calls_getCacheData +
                 ", num_calls_getCacheHistory=" + num_calls_getCacheHistory +
+                ", countries=" + countries +
+                ", cacheData=" + cacheData +
+                ", cacheHistory=" + cacheHistory +
                 '}';
     }
 

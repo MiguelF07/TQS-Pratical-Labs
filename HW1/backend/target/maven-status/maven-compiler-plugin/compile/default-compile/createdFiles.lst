@@ -1,5 +1,6 @@
 com/tqs/homework1/model/Deaths.class
 com/tqs/homework1/model/Cases.class
+com/tqs/homework1/client/CountryStatsClient.class
 com/tqs/homework1/model/CountryStats.class
 com/tqs/homework1/service/CountryStatsService.class
 com/tqs/homework1/model/Tests.class

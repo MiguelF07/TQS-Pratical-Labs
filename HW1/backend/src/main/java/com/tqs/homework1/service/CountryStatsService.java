@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.tqs.homework1.cache.Cache;
+import com.tqs.homework1.client.CountryStatsClient;
 import com.tqs.homework1.model.Cases;
 import com.tqs.homework1.model.CountryStats;
 import com.tqs.homework1.model.Deaths;
@@ -31,20 +32,16 @@ public class CountryStatsService {
     private List<String> countries;
     private Cache cache = new Cache();
 
-    private HttpRequest request;
+    private CountryStatsClient client = new CountryStatsClient();
     public List<String> getCountriesList() throws IOException, InterruptedException, ParseException {
+        cache.setNum_requests(cache.getNum_requests()+1);
         List<String> cacheCountries = cache.getCountries();
         if(cacheCountries.size()==0) {
             this.countries = new ArrayList<>();
-            request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://covid-193.p.rapidapi.com/countries"))
-                    .header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
-                    .header("X-RapidAPI-Key", "1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244")
-                    .method("GET", HttpRequest.BodyPublishers.noBody())
-                    .build();
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-            JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());
+
+            JSONObject jsonObj = client.findCountries();
+            cache.setNum_misses(cache.getNum_misses()+1);
+
             JSONArray results = (JSONArray) jsonObj.get("response");
             for(int i=0;i<results.size();i++) {
                 String c = (String) results.get(i);
@@ -63,6 +60,7 @@ public class CountryStatsService {
             return this.countries;
         }
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Fetched list of Countries from Cache");
+        cache.setNum_hits(cache.getNum_hits()+1);
         return cacheCountries;
     }
 
@@ -72,18 +70,14 @@ public class CountryStatsService {
         }
         Map<String,CountryStats> cacheData = cache.getCacheData();
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Fetched Countries Data from Cache");
+        cache.setNum_requests(cache.getNum_requests()+1);
 
         if(cacheData.get(country)==null) {
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "No Info of country: "+country+" . Fetching API");
-            request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://covid-193.p.rapidapi.com/statistics?country="+country))
-                    .header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
-                    .header("X-RapidAPI-Key", "1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244")
-                    .method("GET", HttpRequest.BodyPublishers.noBody())
-                    .build();
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-            JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());
+
+            cache.setNum_misses(cache.getNum_misses()+1);
+            JSONObject jsonObj = client.findStatisticsByCountry(country);
+
             Long result = (Long) jsonObj.get("results");
             if(result==0) //There are no statistics for the asked country
             {
@@ -105,6 +99,7 @@ public class CountryStatsService {
             return Optional.of(stats);
         }
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Returning country: "+country+" info from Cache");
+        cache.setNum_hits(cache.getNum_hits()+1);
 
         return Optional.of(cacheData.get(country));
     }
@@ -115,6 +110,7 @@ public class CountryStatsService {
         }
         HashMap<LocalDate,CountryStats> cacheCountryHistory = cache.getCacheHistory().get(country);
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Fetched Country: "+country+" History from Cache");
+        cache.setNum_requests(cache.getNum_requests()+1);
 
         List<Optional<CountryStats>> historyRes = new ArrayList<>();
         List<CountryStats> historyTemp = new ArrayList<>();
@@ -138,15 +134,10 @@ public class CountryStatsService {
 
         for(LocalDate date: dates) {
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Date from API: "+date.toString());
-            request = HttpRequest.newBuilder()
-            .uri(URI.create("https://covid-193.p.rapidapi.com/history?country="+country+"&day="+date.toString()))
-            .header("X-RapidAPI-Host", "covid-193.p.rapidapi.com")
-            .header("X-RapidAPI-Key", "1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244")
-            .method("GET", HttpRequest.BodyPublishers.noBody())
-            .build();
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-            JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());  
+
+            cache.setNum_misses(cache.getNum_misses()+1);
+            JSONObject jsonObj = client.findHistoryByCountry(country,date);
+
             Long result = (Long) jsonObj.get("results");
             if(result==0) //There are no statistics for the asked country
             {
@@ -170,6 +161,7 @@ public class CountryStatsService {
         }
         for(LocalDate lD:datesInCache) {
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Date from Cache: "+lD.toString());
+            cache.setNum_hits(cache.getNum_hits()+1);
             historyTemp.add(cacheCountryHistory.get(lD));
         }
         //ORDER ARRAY
