@@ -1,10 +1,13 @@
 package com.tqs.homework1.controller;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.tqs.homework1.cache.Cache;
 import com.tqs.homework1.exceptions.ResourceNotFoundException;
@@ -42,6 +45,8 @@ public class CountryStatsController {
     @GetMapping("/statistics/{country}")
     public ResponseEntity<CountryStats> getStatByCountry(@PathVariable(value="country") String country) throws IOException, InterruptedException, ParseException, ResourceNotFoundException {
         Optional<CountryStats> data = service.getStatisticsByCountry(country);
+        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Updated History of country: "+data);
+
         if(data.isEmpty()) {
             throw new ResourceNotFoundException("Data not found for this country :: " + country);
         }
