@@ -1,6 +1,10 @@
 package com.tqs.homework1;
 
 import com.tqs.homework1.client.CountryStatsClient;
+import com.tqs.homework1.model.Cases;
+import com.tqs.homework1.model.CountryStats;
+import com.tqs.homework1.model.Deaths;
+import com.tqs.homework1.model.Tests;
 import com.tqs.homework1.service.CountryStatsService;
 import org.apache.tomcat.jni.Local;
 import org.json.simple.JSONArray;
@@ -21,6 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class CountryStatsServiceTest {
@@ -58,5 +63,36 @@ public class CountryStatsServiceTest {
     }
 
     @Test
+    public void getStatisticsByCountry_returnsStatisticsOfCountry() throws IOException, ParseException, InterruptedException {
+        Cases cas = new Cases(null,null,61L,null,"373836",3791744L);
+        Deaths dea = new Deaths(null,"2185",22162L);
+        Tests tes = new Tests("4053425",41113089L);
+        CountryStats cs = new CountryStats("Europe","Portugal",10142802L,cas,dea,tes,"2022-04-27","2022-04-27T23:00:03+00:00");
+        assertThat(countryService.getStatisticsByCountry("portugal")).isEqualTo(Optional.of(cs));
+    }
 
+    @Test
+    public void getStatisticsByWrongCountry_returnsEmptyOptional() throws IOException, ParseException, InterruptedException {
+        assertThat(countryService.getStatisticsByCountry("fakecountry")).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    public void getHistoryByCountry_returnsHistoryOfCountry() throws ParseException, IOException, InterruptedException {
+        List<Optional<CountryStats>> history = new ArrayList<>();
+
+        Cases cas7 = new Cases("+31431",628810L,180L,2266939L,"287311",2915971L);
+        Deaths dea7 = new Deaths("+51","1992",20222L);
+        Tests tes7 = new Tests("3291808",33409187L);
+        CountryStats cs7 = new CountryStats("Europe","Portugal",10149191L,cas7,dea7,tes7,"2022-02-07","2022-02-07T15:15:02+00:00");
+
+        Cases cas8 = new Cases("+17019",608147L,178L,2304585L,"288990",2932990L);
+        Deaths dea8 = new Deaths("+36","1996",20258L);
+        Tests tes8 = new Tests("3291834",33409187L);
+        CountryStats cs8 = new CountryStats("Europe","Portugal",10149110L,cas8,dea8,tes8,"2022-02-08","2022-02-08T15:00:03+00:00");
+
+        history.add(Optional.of(cs7));
+        history.add(Optional.of(cs8));
+
+        assertThat(countryService.getHistoryByCountry("portugal",LocalDate.parse("2022-02-07"),LocalDate.parse("2022-02-08"))).isEqualTo(history);
+    }
 }
