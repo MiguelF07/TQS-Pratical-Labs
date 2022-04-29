@@ -70,7 +70,6 @@ public class CountryStatsController {
             }
         }
         return ResponseEntity.ok().body(finalResults);
-        //http://localhost:8080/api/history/portugal/2022-02-07?date2=2022-02-09
     }
 
 
