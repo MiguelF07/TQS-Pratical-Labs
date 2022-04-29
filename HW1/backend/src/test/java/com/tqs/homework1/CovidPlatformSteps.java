@@ -12,6 +12,8 @@ import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.concurrent.TimeUnit;
+
 public class CovidPlatformSteps {
 
     private WebDriver driver;
@@ -24,6 +26,7 @@ public class CovidPlatformSteps {
     }
     @When("I choose {string} as the country I want to see")
     public void i_choose_as_the_country_i_want_to_see(String string) {
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         driver.findElement(By.cssSelector("select")).click();
         {
             WebElement dropdown = driver.findElement(By.cssSelector("select"));

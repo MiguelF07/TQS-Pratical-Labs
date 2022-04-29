@@ -18,7 +18,9 @@
     "react-dropdown-input": "^0.1.11",
     "react-scripts": "5.0.1",
     "react-utc-datepicker": "^0.1.8",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "ejs": ">=3.1.7",
+    "async": ">=2.6.4"
   },
   "scripts": {
     "start": "react-scripts start",
