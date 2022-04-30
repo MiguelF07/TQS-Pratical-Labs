@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cases.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">homework1</a> &gt; <a href="index.source.html" class="el_package">com.tqs.homework1.model</a> &gt; <span class="el_source">Cases.java</span></div><h1>Cases.java</h1><pre class="source lang-java linenums">package com.tqs.homework1.model;
+
+import java.util.Objects;
+
+public class Cases {
+    private String newCases;
+    private Long active;
+    private Long critical;
+    private Long recovered;
+    private String oneM_pop;
+    private Long total;
+
+
+
+<span class="fc" id="L15">    public Cases(String newCases, Long active, Long critical, Long recovered, String oneM_pop, Long total) {</span>
+<span class="fc" id="L16">        this.newCases = newCases;</span>
+<span class="fc" id="L17">        this.active = active;</span>
+<span class="fc" id="L18">        this.critical = critical;</span>
+<span class="fc" id="L19">        this.recovered = recovered;</span>
+<span class="fc" id="L20">        this.oneM_pop = oneM_pop;</span>
+<span class="fc" id="L21">        this.total = total;</span>
+<span class="fc" id="L22">    }</span>
+
+
+    public String getNewCases() {
+<span class="fc" id="L26">        return this.newCases;</span>
+    }
+
+    public void setNewCases(String newCases) {
+<span class="nc" id="L30">        this.newCases = newCases;</span>
+<span class="nc" id="L31">    }</span>
+
+    public Long getActive() {
+<span class="fc" id="L34">        return this.active;</span>
+    }
+
+    public void setActive(Long active) {
+<span class="nc" id="L38">        this.active = active;</span>
+<span class="nc" id="L39">    }</span>
+
+    public Long getCritical() {
+<span class="fc" id="L42">        return this.critical;</span>
+    }
+
+    public void setCritical(Long critical) {
+<span class="nc" id="L46">        this.critical = critical;</span>
+<span class="nc" id="L47">    }</span>
+
+    public Long getRecovered() {
+<span class="fc" id="L50">        return this.recovered;</span>
+    }
+
+    public void setRecovered(Long recovered) {
+<span class="nc" id="L54">        this.recovered = recovered;</span>
+<span class="nc" id="L55">    }</span>
+
+    public String getOneM_pop() {
+<span class="fc" id="L58">        return this.oneM_pop;</span>
+    }
+
+    public void setOneM_pop(String oneM_pop) {
+<span class="nc" id="L62">        this.oneM_pop = oneM_pop;</span>
+<span class="nc" id="L63">    }</span>
+
+    public Long getTotal() {
+<span class="fc" id="L66">        return this.total;</span>
+    }
+
+    public void setTotal(Long total) {
+<span class="nc" id="L70">        this.total = total;</span>
+<span class="nc" id="L71">    }</span>
+
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if (o == this)</span>
+<span class="nc" id="L77">            return true;</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (!(o instanceof Cases)) {</span>
+<span class="nc" id="L79">            return false;</span>
+        }
+<span class="fc" id="L81">        Cases cases = (Cases) o;</span>
+<span class="pc bpc" id="L82" title="6 of 12 branches missed.">        return Objects.equals(newCases, cases.newCases) &amp;&amp; Objects.equals(active, cases.active) &amp;&amp; Objects.equals(critical, cases.critical) &amp;&amp; Objects.equals(recovered, cases.recovered) &amp;&amp; Objects.equals(oneM_pop, cases.oneM_pop) &amp;&amp; Objects.equals(total, cases.total);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L87">        return Objects.hash(newCases, active, critical, recovered, oneM_pop, total);</span>
+    }
+
+
+    @Override
+    public String toString() {
+<span class="fc" id="L93">        return &quot;{&quot; +</span>
+<span class="fc" id="L94">            &quot; newCases='&quot; + getNewCases() + &quot;'&quot; +</span>
+<span class="fc" id="L95">            &quot;, active='&quot; + getActive() + &quot;'&quot; +</span>
+<span class="fc" id="L96">            &quot;, critical='&quot; + getCritical() + &quot;'&quot; +</span>
+<span class="fc" id="L97">            &quot;, recovered='&quot; + getRecovered() + &quot;'&quot; +</span>
+<span class="fc" id="L98">            &quot;, oneM_pop='&quot; + getOneM_pop() + &quot;'&quot; +</span>
+<span class="fc" id="L99">            &quot;, total='&quot; + getTotal() + &quot;'&quot; +</span>
+<span class="fc" id="L100">            &quot;}&quot;;</span>
+    }
+    
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

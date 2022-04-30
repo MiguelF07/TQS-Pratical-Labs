@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CountryStatsClient.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">homework1</a> &gt; <a href="index.source.html" class="el_package">com.tqs.homework1.client</a> &gt; <span class="el_source">CountryStatsClient.java</span></div><h1>CountryStatsClient.java</h1><pre class="source lang-java linenums">package com.tqs.homework1.client;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class CountryStatsClient {
+    private HttpRequest request;
+
+<span class="fc" id="L19">    public CountryStatsClient() {</span>
+<span class="fc" id="L20">    }</span>
+
+    public JSONObject findCountries() throws IOException, InterruptedException, ParseException {
+<span class="fc" id="L23">        request = HttpRequest.newBuilder()</span>
+<span class="fc" id="L24">                .uri(URI.create(&quot;https://covid-193.p.rapidapi.com/countries&quot;))</span>
+<span class="fc" id="L25">                .header(&quot;X-RapidAPI-Host&quot;, &quot;covid-193.p.rapidapi.com&quot;)</span>
+<span class="fc" id="L26">                .header(&quot;X-RapidAPI-Key&quot;, &quot;1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244&quot;)</span>
+<span class="fc" id="L27">                .method(&quot;GET&quot;, HttpRequest.BodyPublishers.noBody())</span>
+<span class="fc" id="L28">                .build();</span>
+<span class="fc" id="L29">        HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());</span>
+<span class="fc" id="L30">        System.out.println(response.body());</span>
+<span class="fc" id="L31">        JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());</span>
+<span class="fc" id="L32">        return jsonObj;</span>
+    }
+
+    public JSONObject findStatisticsByCountry(String country) throws IOException, InterruptedException, ParseException {
+<span class="fc" id="L36">        request = HttpRequest.newBuilder()</span>
+<span class="fc" id="L37">                .uri(URI.create(&quot;https://covid-193.p.rapidapi.com/statistics?country=&quot;+country))</span>
+<span class="fc" id="L38">                .header(&quot;X-RapidAPI-Host&quot;, &quot;covid-193.p.rapidapi.com&quot;)</span>
+<span class="fc" id="L39">                .header(&quot;X-RapidAPI-Key&quot;, &quot;1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244&quot;)</span>
+<span class="fc" id="L40">                .method(&quot;GET&quot;, HttpRequest.BodyPublishers.noBody())</span>
+<span class="fc" id="L41">                .build();</span>
+<span class="fc" id="L42">        HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());</span>
+<span class="fc" id="L43">        System.out.println(response.body());</span>
+<span class="fc" id="L44">        JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());</span>
+<span class="fc" id="L45">        return jsonObj;</span>
+    }
+
+    public JSONObject findHistoryByCountry(String country, LocalDate date) throws IOException, InterruptedException, ParseException {
+<span class="fc" id="L49">        request = HttpRequest.newBuilder()</span>
+<span class="fc" id="L50">                .uri(URI.create(&quot;https://covid-193.p.rapidapi.com/history?country=&quot;+country+&quot;&amp;day=&quot;+date.toString()))</span>
+<span class="fc" id="L51">                .header(&quot;X-RapidAPI-Host&quot;, &quot;covid-193.p.rapidapi.com&quot;)</span>
+<span class="fc" id="L52">                .header(&quot;X-RapidAPI-Key&quot;, &quot;1e5f4af0cemshec98a494e86ee93p156bbfjsnad21dd3eb244&quot;)</span>
+<span class="fc" id="L53">                .method(&quot;GET&quot;, HttpRequest.BodyPublishers.noBody())</span>
+<span class="fc" id="L54">                .build();</span>
+<span class="fc" id="L55">        HttpResponse&lt;String&gt; response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());</span>
+<span class="fc" id="L56">        System.out.println(response.body());</span>
+<span class="fc" id="L57">        JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());</span>
+<span class="fc" id="L58">        return jsonObj;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

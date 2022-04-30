@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: CovidPlatformTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.071 s - in CovidPlatformTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.792 s - in CovidPlatformTest

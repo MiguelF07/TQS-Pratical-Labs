@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CountryStats.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">homework1</a> &gt; <a href="index.source.html" class="el_package">com.tqs.homework1.model</a> &gt; <span class="el_source">CountryStats.java</span></div><h1>CountryStats.java</h1><pre class="source lang-java linenums">package com.tqs.homework1.model;
+
+import java.util.Objects;
+
+public class CountryStats {
+    private String continent;
+    private String country;
+    private Long population;
+    private Cases cases;
+    private Deaths deaths;
+    private Tests tests;
+    private String day;
+    private String time;
+    
+
+<span class="fc" id="L16">    public CountryStats(String continent, String country, Long population, Cases cases, Deaths deaths, Tests tests, String day, String time) {</span>
+<span class="fc" id="L17">        this.continent = continent;</span>
+<span class="fc" id="L18">        this.country = country;</span>
+<span class="fc" id="L19">        this.population = population;</span>
+<span class="fc" id="L20">        this.cases = cases;</span>
+<span class="fc" id="L21">        this.deaths = deaths;</span>
+<span class="fc" id="L22">        this.tests = tests;</span>
+<span class="fc" id="L23">        this.day = day;</span>
+<span class="fc" id="L24">        this.time = time;</span>
+<span class="fc" id="L25">    }</span>
+
+
+    public String getContinent() {
+<span class="fc" id="L29">        return this.continent;</span>
+    }
+
+    public void setContinent(String continent) {
+<span class="nc" id="L33">        this.continent = continent;</span>
+<span class="nc" id="L34">    }</span>
+
+    public String getCountry() {
+<span class="fc" id="L37">        return this.country;</span>
+    }
+
+    public void setCountry(String country) {
+<span class="nc" id="L41">        this.country = country;</span>
+<span class="nc" id="L42">    }</span>
+
+    public Long getPopulation() {
+<span class="fc" id="L45">        return this.population;</span>
+    }
+
+    public void setPopulation(Long population) {
+<span class="nc" id="L49">        this.population = population;</span>
+<span class="nc" id="L50">    }</span>
+
+    public Cases getCases() {
+<span class="fc" id="L53">        return this.cases;</span>
+    }
+
+    public void setCases(Cases cases) {
+<span class="nc" id="L57">        this.cases = cases;</span>
+<span class="nc" id="L58">    }</span>
+
+    public Deaths getDeaths() {
+<span class="fc" id="L61">        return this.deaths;</span>
+    }
+
+    public void setDeaths(Deaths deaths) {
+<span class="nc" id="L65">        this.deaths = deaths;</span>
+<span class="nc" id="L66">    }</span>
+
+    public Tests getTests() {
+<span class="fc" id="L69">        return this.tests;</span>
+    }
+
+    public void setTests(Tests tests) {
+<span class="nc" id="L73">        this.tests = tests;</span>
+<span class="nc" id="L74">    }</span>
+
+    public String getDay() {
+<span class="fc" id="L77">        return this.day;</span>
+    }
+
+    public void setDay(String day) {
+<span class="nc" id="L81">        this.day = day;</span>
+<span class="nc" id="L82">    }</span>
+
+    public String getTime() {
+<span class="fc" id="L85">        return this.time;</span>
+    }
+
+    public void setTime(String time) {
+<span class="nc" id="L89">        this.time = time;</span>
+<span class="nc" id="L90">    }</span>
+
+
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">        if (o == this)</span>
+<span class="nc" id="L97">            return true;</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if (!(o instanceof CountryStats)) {</span>
+<span class="nc" id="L99">            return false;</span>
+        }
+<span class="fc" id="L101">        CountryStats countryStats = (CountryStats) o;</span>
+<span class="pc bpc" id="L102" title="8 of 16 branches missed.">        return Objects.equals(continent, countryStats.continent) &amp;&amp; Objects.equals(country, countryStats.country) &amp;&amp; Objects.equals(population, countryStats.population) &amp;&amp; Objects.equals(cases, countryStats.cases) &amp;&amp; Objects.equals(deaths, countryStats.deaths) &amp;&amp; Objects.equals(tests, countryStats.tests) &amp;&amp; Objects.equals(day, countryStats.day) &amp;&amp; Objects.equals(time, countryStats.time);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L107">        return Objects.hash(continent, country, population, cases, deaths, tests, day, time);</span>
+    }
+
+
+    @Override
+    public String toString() {
+<span class="fc" id="L113">        return &quot;{&quot; +</span>
+<span class="fc" id="L114">            &quot; continent='&quot; + getContinent() + &quot;'&quot; +</span>
+<span class="fc" id="L115">            &quot;, country='&quot; + getCountry() + &quot;'&quot; +</span>
+<span class="fc" id="L116">            &quot;, population='&quot; + getPopulation() + &quot;'&quot; +</span>
+<span class="fc" id="L117">            &quot;, cases='&quot; + getCases() + &quot;'&quot; +</span>
+<span class="fc" id="L118">            &quot;, deaths='&quot; + getDeaths() + &quot;'&quot; +</span>
+<span class="fc" id="L119">            &quot;, tests='&quot; + getTests() + &quot;'&quot; +</span>
+<span class="fc" id="L120">            &quot;, day='&quot; + getDay() + &quot;'&quot; +</span>
+<span class="fc" id="L121">            &quot;, time='&quot; + getTime() + &quot;'&quot; +</span>
+<span class="fc" id="L122">            &quot;}&quot;;</span>
+    }
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

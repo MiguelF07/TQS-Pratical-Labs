@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CountryStatsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">homework1</a> &gt; <a href="index.source.html" class="el_package">com.tqs.homework1.service</a> &gt; <span class="el_source">CountryStatsService.java</span></div><h1>CountryStatsService.java</h1><pre class="source lang-java linenums">package com.tqs.homework1.service;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
+import com.tqs.homework1.cache.Cache;
+import com.tqs.homework1.client.CountryStatsClient;
+import com.tqs.homework1.model.Cases;
+import com.tqs.homework1.model.CountryStats;
+import com.tqs.homework1.model.Deaths;
+import com.tqs.homework1.model.Tests;
+
+import org.apache.tomcat.jni.Local;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+
+
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
+
+@Service
+<span class="fc" id="L31">public class CountryStatsService {</span>
+    private List&lt;String&gt; countries;
+<span class="fc" id="L33">    private Cache cache = new Cache();</span>
+
+<span class="fc" id="L35">    private CountryStatsClient client = new CountryStatsClient();</span>
+    public List&lt;String&gt; getCountriesList() throws IOException, InterruptedException, ParseException {
+<span class="fc" id="L37">        cache.setNum_requests(cache.getNum_requests()+1);</span>
+<span class="fc" id="L38">        List&lt;String&gt; cacheCountries = cache.getCountries();</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if(cacheCountries.size()==0) {</span>
+<span class="fc" id="L40">            this.countries = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L42">            JSONObject jsonObj = client.findCountries();</span>
+<span class="fc" id="L43">            cache.setNum_misses(cache.getNum_misses()+1);</span>
+
+<span class="fc" id="L45">            JSONArray results = (JSONArray) jsonObj.get(&quot;response&quot;);</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            for(int i=0;i&lt;results.size();i++) {</span>
+<span class="fc" id="L47">                String c = (String) results.get(i);</span>
+<span class="fc" id="L48">                this.countries.add(c);</span>
+            }
+<span class="fc" id="L50">            cache.setCountries(this.countries);</span>
+<span class="fc" id="L51">            Map&lt;String,CountryStats&gt; cacheData = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L52">            Map&lt;String,HashMap&lt;LocalDate,CountryStats&gt;&gt; cacheHistory = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">            for(String c:this.countries) {</span>
+<span class="fc" id="L54">                cacheData.put(c,null);</span>
+<span class="fc" id="L55">                cacheHistory.put(c.toLowerCase(),new HashMap&lt;&gt;());</span>
+            }
+<span class="fc" id="L57">            cache.setCacheData(cacheData);</span>
+<span class="fc" id="L58">            cache.setCacheHistory(cacheHistory);</span>
+<span class="fc" id="L59">            Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Fetched list of Countries from API&quot;);</span>
+<span class="fc" id="L60">            return this.countries;</span>
+        }
+<span class="nc" id="L62">        Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Fetched list of Countries from Cache&quot;);</span>
+<span class="nc" id="L63">        cache.setNum_hits(cache.getNum_hits()+1);</span>
+<span class="nc" id="L64">        return cacheCountries;</span>
+    }
+
+    public Optional&lt;CountryStats&gt; getStatisticsByCountry(String country) throws IOException, InterruptedException, ParseException {
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if(cache.getCountries().size()==0) {</span>
+<span class="fc" id="L69">            this.getCountriesList();</span>
+        }
+<span class="fc" id="L71">        Map&lt;String,CountryStats&gt; cacheData = cache.getCacheData();</span>
+<span class="fc" id="L72">        Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Fetched Countries Data from Cache&quot;);</span>
+<span class="fc" id="L73">        cache.setNum_requests(cache.getNum_requests()+1);</span>
+
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if(cacheData.get(country)==null) {</span>
+<span class="fc" id="L76">            Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;No Info of country: &quot;+country+&quot; . Fetching API&quot;);</span>
+
+<span class="fc" id="L78">            cache.setNum_misses(cache.getNum_misses()+1);</span>
+<span class="fc" id="L79">            JSONObject jsonObj = client.findStatisticsByCountry(country);</span>
+
+<span class="fc" id="L81">            Long result = (Long) jsonObj.get(&quot;results&quot;);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">            if(result==0) //There are no statistics for the asked country</span>
+            {
+<span class="fc" id="L84">                return Optional.empty();</span>
+            }
+<span class="fc" id="L86">            JSONObject responseJson = (JSONObject)((JSONArray) jsonObj.get(&quot;response&quot;)).get(0);</span>
+<span class="fc" id="L87">            JSONObject casesJson = (JSONObject) responseJson.get(&quot;cases&quot;);</span>
+<span class="fc" id="L88">            JSONObject deathsJson = (JSONObject) responseJson.get(&quot;deaths&quot;);</span>
+<span class="fc" id="L89">            JSONObject testsJson = (JSONObject) responseJson.get(&quot;tests&quot;);</span>
+<span class="fc" id="L90">            Cases cases = new Cases((String) casesJson.get(&quot;new&quot;), (Long) casesJson.get(&quot;active&quot;), (Long) casesJson.get(&quot;critical&quot;), (Long) casesJson.get(&quot;recovered&quot;), (String) casesJson.get(&quot;1M_pop&quot;), (Long) casesJson.get(&quot;total&quot;));</span>
+<span class="fc" id="L91">            Deaths deaths = new Deaths((String) deathsJson.get(&quot;new&quot;), (String) deathsJson.get(&quot;1M_pop&quot;), (Long) deathsJson.get(&quot;total&quot;));</span>
+<span class="fc" id="L92">            Tests tests = new Tests((String) testsJson.get(&quot;1M_pop&quot;),(Long) testsJson.get(&quot;total&quot;));</span>
+<span class="fc" id="L93">            CountryStats stats = new CountryStats((String) responseJson.get(&quot;continent&quot;), (String) responseJson.get(&quot;country&quot;), (Long) responseJson.get(&quot;population&quot;), cases, deaths, tests, (String) responseJson.get(&quot;day&quot;), (String) responseJson.get(&quot;time&quot;));</span>
+<span class="fc" id="L94">            cacheData.put(country,stats);</span>
+<span class="fc" id="L95">            cache.setCacheData(cacheData);</span>
+            //Putting the data in the CacheHistory
+<span class="fc" id="L97">            addToCacheHistory(country, responseJson, stats);</span>
+<span class="fc" id="L98">            Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Updated cache with country: &quot;+country+&quot; data from API&quot;);</span>
+<span class="fc" id="L99">            return Optional.of(stats);</span>
+        }
+<span class="nc" id="L101">        Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Returning country: &quot;+country+&quot; info from Cache&quot;);</span>
+<span class="nc" id="L102">        cache.setNum_hits(cache.getNum_hits()+1);</span>
+
+<span class="nc" id="L104">        return Optional.of(cacheData.get(country));</span>
+    }
+
+    public List&lt;Optional&lt;CountryStats&gt;&gt; getHistoryByCountry(String country,LocalDate startDate,LocalDate endDate) throws ParseException, IOException, InterruptedException {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if(cache.getCountries().size()==0) {</span>
+<span class="fc" id="L109">            this.getCountriesList();</span>
+        }
+<span class="fc" id="L111">        HashMap&lt;LocalDate,CountryStats&gt; cacheCountryHistory = cache.getCacheHistory().get(country);</span>
+<span class="fc" id="L112">        Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Fetched Country: &quot;+country+&quot; History from Cache&quot;);</span>
+<span class="fc" id="L113">        cache.setNum_requests(cache.getNum_requests()+1);</span>
+
+<span class="fc" id="L115">        List&lt;Optional&lt;CountryStats&gt;&gt; historyRes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L116">        List&lt;CountryStats&gt; historyTemp = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L117">        List&lt;LocalDate&gt; dates = new ArrayList&lt;&gt;();</span>
+<span class="pc bpc" id="L118" title="2 of 4 branches missed.">        if(endDate==null || (startDate.isEqual(endDate))) {</span>
+<span class="nc" id="L119">            dates.add(startDate);</span>
+<span class="nc" id="L120">        }</span>
+        else {
+<span class="fc" id="L122">            dates=startDate.datesUntil(endDate).collect(Collectors.toList());</span>
+<span class="fc" id="L123">            dates.add(endDate);</span>
+        }
+
+<span class="fc" id="L126">        Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Dates: &quot;+dates.toString());</span>
+<span class="fc" id="L127">        List&lt;LocalDate&gt; datesInCache = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        for(LocalDate dateI:dates) {</span>
+<span class="pc bpc" id="L129" title="1 of 2 branches missed.">            if(cacheCountryHistory.containsKey(dateI)) {</span>
+<span class="nc" id="L130">                datesInCache.add(dateI);</span>
+            }
+        }
+<span class="fc" id="L133">        dates.removeAll(datesInCache);  //This way it will only fetch the ones that are not in cache</span>
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        for(LocalDate date: dates) {</span>
+<span class="fc" id="L136">            Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Date from API: &quot;+date.toString());</span>
+
+<span class="fc" id="L138">            cache.setNum_misses(cache.getNum_misses()+1);</span>
+<span class="fc" id="L139">            JSONObject jsonObj = client.findHistoryByCountry(country,date);</span>
+
+<span class="fc" id="L141">            Long result = (Long) jsonObj.get(&quot;results&quot;);</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">            if(result==0) //There are no statistics for the asked country</span>
+            {
+<span class="nc" id="L144">                historyRes.add(Optional.empty());</span>
+                //return historyRes;
+            }
+<span class="fc" id="L147">            JSONObject responseJson = (JSONObject)((JSONArray) jsonObj.get(&quot;response&quot;)).get(0);</span>
+<span class="fc" id="L148">            JSONObject casesJson = (JSONObject) responseJson.get(&quot;cases&quot;);</span>
+<span class="fc" id="L149">            JSONObject deathsJson = (JSONObject) responseJson.get(&quot;deaths&quot;);</span>
+<span class="fc" id="L150">            JSONObject testsJson = (JSONObject) responseJson.get(&quot;tests&quot;);</span>
+<span class="fc" id="L151">            Cases cases = new Cases((String) casesJson.get(&quot;new&quot;), (Long) casesJson.get(&quot;active&quot;), (Long) casesJson.get(&quot;critical&quot;), (Long) casesJson.get(&quot;recovered&quot;), (String) casesJson.get(&quot;1M_pop&quot;), (Long) casesJson.get(&quot;total&quot;));</span>
+<span class="fc" id="L152">            Deaths deaths = new Deaths((String) deathsJson.get(&quot;new&quot;), (String) deathsJson.get(&quot;1M_pop&quot;), (Long) deathsJson.get(&quot;total&quot;));</span>
+<span class="fc" id="L153">            Tests tests = new Tests((String) testsJson.get(&quot;1M_pop&quot;),(Long) testsJson.get(&quot;total&quot;));</span>
+<span class="fc" id="L154">            CountryStats stats = new CountryStats((String) responseJson.get(&quot;continent&quot;), (String) responseJson.get(&quot;country&quot;), (Long) responseJson.get(&quot;population&quot;), cases, deaths, tests, (String) responseJson.get(&quot;day&quot;), (String) responseJson.get(&quot;time&quot;));</span>
+<span class="fc" id="L155">            historyTemp.add(stats);</span>
+            //Putting the data in the CacheHistory
+<span class="fc" id="L157">            addToCacheHistory(country, responseJson, stats);</span>
+<span class="fc" id="L158">            Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Updated History of country: &quot;+country+&quot; on Cache&quot;);</span>
+
+
+        }
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">        for(LocalDate lD:datesInCache) {</span>
+<span class="nc" id="L163">            Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Date from Cache: &quot;+lD.toString());</span>
+<span class="nc" id="L164">            cache.setNum_hits(cache.getNum_hits()+1);</span>
+<span class="nc" id="L165">            historyTemp.add(cacheCountryHistory.get(lD));</span>
+        }
+        //ORDER ARRAY
+<span class="fc" id="L168">        historyTemp.sort(Comparator.comparing((CountryStats c) -&gt; LocalDate.parse(c.getDay())));</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        for(CountryStats c:historyTemp) {</span>
+<span class="fc" id="L170">            historyRes.add(Optional.of(c));</span>
+        }
+<span class="fc" id="L172">        Logger.getLogger(this.getClass().getName()).log(Level.INFO, &quot;Final Ordered Array: &quot;+historyRes.toString());</span>
+<span class="fc" id="L173">        return historyRes;</span>
+    }
+
+    private void addToCacheHistory(String country, JSONObject responseJson, CountryStats stats) {
+<span class="fc" id="L177">        HashMap&lt;LocalDate,CountryStats&gt; countryHistory = cache.getCacheHistory().get(country);</span>
+<span class="fc" id="L178">        LocalDate dayDate = LocalDate.parse((String) responseJson.get(&quot;day&quot;));</span>
+<span class="fc" id="L179">        countryHistory.put(dayDate,stats);</span>
+<span class="fc" id="L180">        Map&lt;String,HashMap&lt;LocalDate,CountryStats&gt;&gt; cacheH = cache.getCacheHistory();</span>
+<span class="fc" id="L181">        cacheH.put(country,countryHistory);</span>
+<span class="fc" id="L182">        cache.setCacheHistory(cacheH);</span>
+<span class="fc" id="L183">    }</span>
+
+    public Cache getCache() {
+<span class="fc" id="L186">        return cache;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Cache.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">homework1</a> &gt; <a href="index.source.html" class="el_package">com.tqs.homework1.cache</a> &gt; <span class="el_source">Cache.java</span></div><h1>Cache.java</h1><pre class="source lang-java linenums">package com.tqs.homework1.cache;
+
+import com.tqs.homework1.model.CountryStats;
+import com.tqs.homework1.service.CountryStatsService;
+import org.apache.tomcat.jni.Local;
+import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.*;
+
+public class Cache {
+    //Statistics
+    private int num_requests;
+    private int num_hits;
+    private int num_misses;
+    private int num_calls_getCountries;
+    private int num_calls_getCacheData;
+    private int num_calls_getCacheHistory;
+    //Data Structures
+    private List&lt;String&gt; countries;
+    private Map&lt;String, CountryStats&gt; cacheData;
+    private Map&lt;String,HashMap&lt;LocalDate,CountryStats&gt;&gt; cacheHistory;
+
+<span class="fc" id="L26">    public Cache() {</span>
+<span class="fc" id="L27">        this.num_requests = 0;</span>
+<span class="fc" id="L28">        this.num_hits = 0;</span>
+<span class="fc" id="L29">        this.num_misses = 0;</span>
+<span class="fc" id="L30">        this.num_calls_getCountries = 0;</span>
+<span class="fc" id="L31">        this.num_calls_getCacheData = 0;</span>
+<span class="fc" id="L32">        this.num_calls_getCacheHistory = 0;</span>
+<span class="fc" id="L33">        this.countries = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L34">        this.cacheData = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L35">        this.cacheHistory = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L37">        new java.util.Timer().schedule(</span>
+<span class="fc" id="L38">                new java.util.TimerTask() {</span>
+                    @Override
+                    public void run() {
+<span class="nc" id="L41">                        clearCache();</span>
+<span class="nc" id="L42">                    }</span>
+                },
+<span class="fc" id="L44">                60000</span>
+        );
+<span class="fc" id="L46">    }</span>
+
+    public List&lt;String&gt; getCountries() {
+<span class="fc" id="L49">        this.num_calls_getCountries++;</span>
+<span class="fc" id="L50">        return countries;</span>
+    }
+
+    public void setCountries(List&lt;String&gt; countries) {
+<span class="fc" id="L54">        this.countries = countries;</span>
+<span class="fc" id="L55">    }</span>
+
+    public Map&lt;String, CountryStats&gt; getCacheData() {
+<span class="fc" id="L58">        this.num_calls_getCacheData++;</span>
+<span class="fc" id="L59">        return cacheData;</span>
+    }
+
+    public void setCacheData(Map&lt;String, CountryStats&gt; cacheData) {
+<span class="fc" id="L63">        this.cacheData = cacheData;</span>
+<span class="fc" id="L64">    }</span>
+
+    public Map&lt;String, HashMap&lt;LocalDate, CountryStats&gt;&gt; getCacheHistory() {
+<span class="fc" id="L67">        this.num_calls_getCacheHistory++;</span>
+<span class="fc" id="L68">        return cacheHistory;</span>
+    }
+
+    public void setCacheHistory(Map&lt;String, HashMap&lt;LocalDate, CountryStats&gt;&gt; cacheHistory) {
+<span class="fc" id="L72">        this.cacheHistory = cacheHistory;</span>
+<span class="fc" id="L73">    }</span>
+
+    public int getNum_requests() {
+<span class="fc" id="L76">        return num_requests;</span>
+    }
+
+    public void setNum_requests(int num_requests) {
+<span class="fc" id="L80">        this.num_requests = num_requests;</span>
+<span class="fc" id="L81">    }</span>
+
+    public int getNum_hits() {
+<span class="fc" id="L84">        return num_hits;</span>
+    }
+
+    public void setNum_hits(int num_hits) {
+<span class="nc" id="L88">        this.num_hits = num_hits;</span>
+<span class="nc" id="L89">    }</span>
+
+    public int getNum_misses() {
+<span class="fc" id="L92">        return num_misses;</span>
+    }
+
+    public void setNum_misses(int num_misses) {
+<span class="fc" id="L96">        this.num_misses = num_misses;</span>
+<span class="fc" id="L97">    }</span>
+
+    public int getNum_calls_getCountries() {
+<span class="fc" id="L100">        return num_calls_getCountries;</span>
+    }
+
+    public void setNum_calls_getCountries(int num_calls_getCountries) {
+<span class="nc" id="L104">        this.num_calls_getCountries = num_calls_getCountries;</span>
+<span class="nc" id="L105">    }</span>
+
+    public int getNum_calls_getCacheData() {
+<span class="fc" id="L108">        return num_calls_getCacheData;</span>
+    }
+
+    public void setNum_calls_getCacheData(int num_calls_getCacheData) {
+<span class="nc" id="L112">        this.num_calls_getCacheData = num_calls_getCacheData;</span>
+<span class="nc" id="L113">    }</span>
+
+    public int getNum_calls_getCacheHistory() {
+<span class="fc" id="L116">        return num_calls_getCacheHistory;</span>
+    }
+
+    public void setNum_calls_getCacheHistory(int num_calls_getCacheHistory) {
+<span class="nc" id="L120">        this.num_calls_getCacheHistory = num_calls_getCacheHistory;</span>
+<span class="nc" id="L121">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L126" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L127">        Cache cache = (Cache) o;</span>
+<span class="nc bnc" id="L128" title="All 18 branches missed.">        return num_requests == cache.num_requests &amp;&amp; num_hits == cache.num_hits &amp;&amp; num_misses == cache.num_misses &amp;&amp; num_calls_getCountries == cache.num_calls_getCountries &amp;&amp; num_calls_getCacheData == cache.num_calls_getCacheData &amp;&amp; num_calls_getCacheHistory == cache.num_calls_getCacheHistory &amp;&amp; Objects.equals(countries, cache.countries) &amp;&amp; Objects.equals(cacheData, cache.cacheData) &amp;&amp; Objects.equals(cacheHistory, cache.cacheHistory);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L133">        return Objects.hash(countries, cacheData, cacheHistory, num_requests, num_hits, num_misses, num_calls_getCountries, num_calls_getCacheData, num_calls_getCacheHistory);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L138">        return &quot;Cache{&quot; +</span>
+<span class="nc" id="L139">                &quot;num_requests=&quot; + num_requests +</span>
+<span class="nc" id="L140">                &quot;, num_hits=&quot; + num_hits +</span>
+<span class="nc" id="L141">                &quot;, num_misses=&quot; + num_misses +</span>
+<span class="nc" id="L142">                &quot;, num_calls_getCountries=&quot; + num_calls_getCountries +</span>
+<span class="nc" id="L143">                &quot;, num_calls_getCacheData=&quot; + num_calls_getCacheData +</span>
+<span class="nc" id="L144">                &quot;, num_calls_getCacheHistory=&quot; + num_calls_getCacheHistory +</span>
+<span class="nc" id="L145">                &quot;, countries=&quot; + countries +</span>
+<span class="nc" id="L146">                &quot;, cacheData=&quot; + cacheData +</span>
+<span class="nc" id="L147">                &quot;, cacheHistory=&quot; + cacheHistory +</span>
+<span class="nc" id="L148">                '}';</span>
+    }
+
+    public void clearCache() {
+<span class="fc" id="L152">        this.countries = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L153">        this.cacheData = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L154">        this.cacheHistory = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L155">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

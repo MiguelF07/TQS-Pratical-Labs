@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+homework1,com.tqs.homework1.model,Deaths,37,77,5,5,9,17,9,6,4,6
+homework1,com.tqs.homework1.model,Tests,28,58,4,4,7,14,7,5,3,5
+homework1,com.tqs.homework1.model,Cases,64,134,8,8,15,26,15,9,7,9
+homework1,com.tqs.homework1.model,CountryStats,82,172,10,10,19,32,19,11,9,11
+homework1,com.tqs.homework1.service,CountryStatsService,92,698,7,23,13,95,7,15,0,7
+homework1,com.tqs.homework1.client,CountryStatsClient,0,134,0,0,0,32,0,4,0,4
+homework1,com.tqs.homework1.controller,CountryStatsController,11,92,3,5,1,18,3,6,0,5
+homework1,com.tqs.homework1,Homework1Application,5,3,0,0,2,1,1,1,1,1
+homework1,com.tqs.homework1.exceptions,ResourceNotFoundException,4,0,0,0,2,0,1,0,1,0
+homework1,com.tqs.homework1.cache,Cache,191,126,24,0,24,40,19,16,7,16
+homework1,com.tqs.homework1.cache,Cache.new TimerTask() {...},4,6,0,0,2,1,1,1,1,1
