@@ -58,7 +58,7 @@ jobs:
       run: npm install --prefix ./HW1/frontend
 
     - name: Run tests
-      run: npm --prefix ./HW1/frontend run test
+      run: mvn -B package --file HW1/backend/pom.xml
 
     - name: Stop containers
       if: always()
