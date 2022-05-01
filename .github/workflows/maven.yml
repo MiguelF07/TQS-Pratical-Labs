@@ -41,6 +41,9 @@ jobs:
   docker:
     timeout-minutes: 10
     runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        firefox: [ '84.0', 'latest-beta', 'latest-devedition', 'latest-esr', 'latest' ]
 
     steps:
     - name: Checkout
@@ -74,11 +77,11 @@ jobs:
 
     # - name: Setting display
     #   run: export DISPLAY=localhost:0.0
-    - name: Prepare Firefox
-        uses: browser-actions/setup-firefox@latest
-      
-    - name: Firefox version
-      run: firefox --version
+    - name: Setup firefox
+      uses: browser-actions/setup-firefox@latest
+      with:
+        firefox-version: ${{ matrix.firefox }}
+    - run: firefox --version
       
     - name: Install Selenium
       run: pip install selenium
