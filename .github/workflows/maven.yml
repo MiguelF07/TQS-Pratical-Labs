@@ -54,8 +54,8 @@ jobs:
       with:
         node-version: 14.x
 
-    - name: Install dependencies
-      run: npm install --prefix ./HW1/frontend
+    # - name: Install dependencies
+    #   run: npm install --prefix ./HW1/frontend
 
     - name: Set up JDK 11
       uses: actions/setup-java@v3
