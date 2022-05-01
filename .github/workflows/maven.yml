@@ -55,10 +55,10 @@ jobs:
         node-version: 14.x
 
     - name: Install dependencies
-      run: npm install
+      run: npm install --prefix ./HW1/frontend
 
     - name: Run tests
-      run: npm run test
+      run: npm --prefix ./HW1/frontend run test
 
     - name: Stop containers
       if: always()
