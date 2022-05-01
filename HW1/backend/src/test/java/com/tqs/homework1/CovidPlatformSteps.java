@@ -25,9 +25,9 @@ public class CovidPlatformSteps {
 
     @When("I navigate to {string}")
     public void i_navigate_to(String url) {
-//        FirefoxOptions options= new FirefoxOptions().setHeadless(true);
-//        driver = new FirefoxDriver(options);
-        driver = new FirefoxDriver();
+        FirefoxOptions options= new FirefoxOptions().setHeadless(true);
+        driver = new FirefoxDriver(options);
+//        driver = new FirefoxDriver();
         driver.get(url);
     }
     @When("I choose {string} as the country I want to see")
