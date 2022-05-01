@@ -1,8 +1,10 @@
 package com.tqs.homework1;
 
+import io.cucumber.java.AfterAll;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -21,7 +23,7 @@ public class CovidPlatformSteps {
 
     @When("I navigate to {string}")
     public void i_navigate_to(String url) {
-        driver = WebDriverManager.chromedriver().create();
+        driver = new ChromeDriver();
         driver.get(url);
     }
     @When("I choose {string} as the country I want to see")
