@@ -25,8 +25,9 @@ public class CovidPlatformSteps {
 
     @When("I navigate to {string}")
     public void i_navigate_to(String url) {
-        FirefoxOptions options= new FirefoxOptions().setHeadless(true);
-        driver = new FirefoxDriver(options);
+//        FirefoxOptions options= new FirefoxOptions().setHeadless(true);
+//        driver = new FirefoxDriver(options);
+        driver = new FirefoxDriver();
         driver.get(url);
     }
     @When("I choose {string} as the country I want to see")
@@ -48,8 +49,8 @@ public class CovidPlatformSteps {
 
     @Then("I should see the COVID data for the country {string}")
     public void i_should_see_the_covid_data_for_the_country(String string) {
-        //wait = new WebDriverWait(driver, 5);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 5);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[2]/div/div/b[1]")));
         driver.findElement(By.cssSelector(".row:nth-child(1) > .col")).click();
         assertThat(driver.findElement(By.cssSelector(".row:nth-child(1) > .col")).getText()).contains(string);
