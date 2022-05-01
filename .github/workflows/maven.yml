@@ -64,6 +64,14 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    - name: geckodriver/firefox
+      run: |
+        echo "geckodriver/firefox"
+        which geckodriver
+        geckodriver --version
+        which firefox
+        firefox --version
+
     - name: Run tests
       run: mvn -B package --file HW1/backend/pom.xml
 
