@@ -64,16 +64,27 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: geckodriver/firefox
-      run: |
-        echo "geckodriver/firefox"
-        which geckodriver
-        geckodriver --version
-        which firefox
-        firefox --version
+    # - name: geckodriver/firefox
+    #   run: |
+    #     echo "geckodriver/firefox"
+    #     which geckodriver
+    #     geckodriver --version
+    #     which firefox
+    #     firefox --version
 
-    - name: Setting display
-      run: export DISPLAY=localhost:0.0
+    # - name: Setting display
+    #   run: export DISPLAY=localhost:0.0
+    - name: Prepare Firefox
+        uses: browser-actions/setup-firefox@latest
+      
+    - name: Firefox version
+      run: firefox --version
+      
+    - name: Install Selenium
+      run: pip install selenium
+      
+    - name: Install Geckodriver
+      run: yarn add geckodriver 
 
     - name: Run tests
       run: mvn -B package --file HW1/backend/pom.xml
