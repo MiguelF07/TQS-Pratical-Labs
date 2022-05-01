@@ -51,10 +51,10 @@ public class CovidPlatformSteps {
     public void i_should_see_the_covid_data_for_the_country(String string) {
         wait = new WebDriverWait(driver, 5);
 //        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".small_container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)"),string));
+        //wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".small_container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)"),string));
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".small_container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)")));
 
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[2]/div/div/b[1]")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[2]/div/div/b[1]")));
         driver.findElement(By.cssSelector(".row:nth-child(1) > .col")).click();
         assertThat(driver.findElement(By.cssSelector(".row:nth-child(1) > .col")).getText()).contains(string);
     }

@@ -27,7 +27,6 @@ public class CountryStatsClient {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
         JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());
         return jsonObj;
     }
@@ -40,7 +39,6 @@ public class CountryStatsClient {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
         JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());
         return jsonObj;
     }
@@ -53,7 +51,6 @@ public class CountryStatsClient {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
         JSONObject jsonObj = (JSONObject) new JSONParser().parse(response.body());
         return jsonObj;
     }
