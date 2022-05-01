@@ -40,7 +40,7 @@ on:
 jobs:
   docker:
     timeout-minutes: 10
-    runs-on: macos-latest
+    runs-on: ubuntu-18.04
 
     steps:
     - name: Checkout
@@ -71,6 +71,9 @@ jobs:
         geckodriver --version
         which firefox
         firefox --version
+
+    - name: Setting display
+      run: export DISPLAY=localhost:0.0
 
     - name: Run tests
       run: mvn -B package --file HW1/backend/pom.xml
