@@ -55,12 +55,8 @@ public class CovidPlatformSteps {
 
     @Then("I should see the COVID data for the country {string}")
     public void i_should_see_the_covid_data_for_the_country(String string) {
-        wait = new WebDriverWait(driver, 7);
-        driver.manage().timeouts().implicitlyWait(7, TimeUnit.SECONDS);
-        //wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".small_container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)"),string));
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".small_container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)")));
-
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div/div/div[2]/div/div[2]/div/div/b[1]")));
+        wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.or(ExpectedConditions.not(ExpectedConditions.textToBe(By.cssSelector(".row:nth-child(1) > .col"),"")),ExpectedConditions.not(ExpectedConditions.textToBe(By.cssSelector(".row:nth-child(1) > .col"),"No Data"))));
         driver.findElement(By.cssSelector(".row:nth-child(1) > .col")).click();
         assertThat(driver.findElement(By.cssSelector(".row:nth-child(1) > .col")).getText()).contains(string);
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "I should see the covid data for the country");
