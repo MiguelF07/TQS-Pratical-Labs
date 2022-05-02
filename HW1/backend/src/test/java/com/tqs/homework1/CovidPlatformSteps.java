@@ -50,7 +50,7 @@ public class CovidPlatformSteps {
     @Then("I should see the COVID data for the country {string}")
     public void i_should_see_the_covid_data_for_the_country(String string) {
         wait = new WebDriverWait(driver, 7);
-//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(7, TimeUnit.SECONDS);
         //wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(".small_container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)"),string));
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".small_container > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)")));
 
